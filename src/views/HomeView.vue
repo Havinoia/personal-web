@@ -756,8 +756,8 @@ onUnmounted(() => {
         <a :href="store.profile.github" target="_blank" class="social-link"
           >GH</a
         >
-        <a :href="store.profile.linkedin" target="_blank" class="social-link"
-          >IN</a
+        <a :href="store.contact.instagram" target="_blank" class="social-link"
+          >IG</a
         >
       </div>
     </footer>
