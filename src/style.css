@@ -291,76 +291,6 @@ nav {
   background: linear-gradient(to left, var(--bg) 20%, transparent);
 }
 
-/* ── PERBAIKAN PORTO SCROLL ── */
-.porto-scroll {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  /* Penting agar swipe lancar di HP */
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding: 20px 0 60px;
-  flex: 1;
-  /* Hilangkan padding-right lama, ganti dengan ini */
-  padding-left: calc(50% - 160px);
-}
-
-/* Trik agar kartu terakhir bisa ke tengah */
-.porto-scroll::after {
-  content: "";
-  flex-shrink: 0;
-  width: calc(50% - 160px);
-}
-
-.porto-card {
-  flex-shrink: 0;
-  width: 320px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px; /* Saya tambahkan sedikit radius agar lebih modern */
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-  user-select: none;
-  -webkit-user-select: none;
-
-  /* Efek Transisi */
-  transition:
-    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.4s ease,
-    box-shadow 0.4s ease;
-
-  /* State Default (Saat tidak di tengah/tidak aktif) */
-  opacity: 0.35;
-  transform: scale(0.9) translateY(10px);
-
-  /* Snap Alignment: Kunci utama agar kartu berhenti di tengah */
-  scroll-snap-align: center;
-}
-
-/* ── PERBAIKAN DI MOBILE (768px) ── */
-@media (max-width: 768px) {
-  .porto-scroll {
-    padding-left: calc(50% - 130px); /* 130px = setengah dari 260px */
-  }
-
-  .porto-scroll::after {
-    width: calc(50% - 130px);
-  }
-
-  .porto-card {
-    width: 260px;
-  }
-}
-.porto-scroll::-webkit-scrollbar {
-  display: none;
-}
-.porto-scroll:active {
-  cursor: grabbing;
-}
-
 /* ── PORTO SCROLL SECTION (CLEAN MERGER) ── */
 .porto-scroll {
   display: flex;
@@ -1098,14 +1028,9 @@ section {
     padding-left: calc(50% - 130px);
     scroll-padding-inline: calc(50% - 130px);
   }
+  .porto-scroll::after { width: calc(50% - 130px); }
+  .porto-card { width: 260px; }
 
-  .porto-scroll::after {
-    width: calc(50% - 130px);
-  }
-
-  .porto-card {
-    width: 260px;
-  }
   nav {
     padding: 0 24px;
     justify-content: space-between;
