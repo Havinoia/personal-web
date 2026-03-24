@@ -244,71 +244,117 @@ nav {
   background: linear-gradient(to left, var(--bg) 20%, transparent);
 }
 
-/* ── PERBAIKAN PORTO SCROLL ── */
-.porto-scroll {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  /* Penting agar swipe lancar di HP */
-  scroll-snap-type: x mandatory; 
-  -webkit-overflow-scrolling: touch; 
-  scrollbar-width: none;
-  padding: 20px 0 60px;
-  flex: 1;
-  /* Hilangkan padding-right lama, ganti dengan ini */
-  padding-left: calc(50% - 160px); 
-}
-
-/* Trik agar kartu terakhir bisa ke tengah */
-.porto-scroll::after {
-  content: '';
-  flex-shrink: 0;
-  width: calc(50% - 160px);
-}
-
+/* ── PORTO CARD ── */
 .porto-card {
   flex-shrink: 0;
   width: 320px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px; /* Saya tambahkan sedikit radius agar lebih modern */
+  border-radius: 0;
   overflow: hidden;
   cursor: pointer;
   position: relative;
   user-select: none;
   -webkit-user-select: none;
-  
-  /* Efek Transisi */
-  transition: 
-    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.4s ease,
-    box-shadow 0.4s ease;
-
-  /* State Default (Saat tidak di tengah/tidak aktif) */
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
   opacity: 0.35;
-  transform: scale(0.9) translateY(10px);
-  
-  /* Snap Alignment: Kunci utama agar kartu berhenti di tengah */
+  transform: scale(0.88) translateY(6px);
   scroll-snap-align: center;
 }
-
-/* ── PERBAIKAN DI MOBILE (768px) ── */
-@media (max-width: 768px) {
-  .porto-scroll {
-    padding-left: calc(50% - 130px); /* 130px = setengah dari 260px */
-  }
-  
-  .porto-scroll::after {
-    width: calc(50% - 130px);
-  }
-
-  .porto-card {
-    width: 260px;
-  }
+.porto-card.active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  border-color: rgba(0,229,160,0.3);
+  box-shadow: 
+    0 0 0 1px rgba(0,229,160,0.1),
+    0 20px 40px rgba(0,0,0,0.6);
+  z-index: 10;
 }
-.porto-scroll::-webkit-scrollbar { display: none; }
-.porto-scroll:active { cursor: grabbing; }
+.porto-card-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.porto-card-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, var(--surface) 100%);
+  z-index: 1;
+}
+.porto-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.5s ease;
+}
+.porto-card.active .porto-card-img {
+  transform: scale(1.05);
+}
+.porto-card.active .porto-card-emoji { transform: scale(1.12); }
+.porto-card-body {
+  padding: 16px;
+  position: relative;
+  z-index: 2;
+}
+.porto-card-meta {
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+.porto-card.active .porto-card-meta {
+  color: var(--accent);
+}
+.porto-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 12px;
+  transition: color 0.3s;
+}
+
+.porto-card.active .porto-card-title {
+  color: var(--text);
+}
+
+.porto-card-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+.porto-card.active .porto-card-tags {
+  opacity: 1;
+}
+
+.porto-card-tag {
+  padding: 3px 10px;
+  background: var(--surface2);
+  border-radius: 6px;
+  font-size: 10px;
+  color: var(--text3);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.porto-card.active .porto-card-tag {
+  color: var(--accent);
+  background: var(--accent-dim);
+}
 
 /* ── HERO CENTER ── */
 .hero-center {
