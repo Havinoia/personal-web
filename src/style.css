@@ -249,11 +249,19 @@ nav {
   gap: 20px;
   overflow-x: auto;
   scrollbar-width: none;
-  padding: 12px 0 16px;
+  padding: 12px 0 40px; /* Tambah padding bawah agar shadow tidak terpotong */
   flex: 1;
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
+  
+  /* TAMBAHKAN INI: Agar scroll terasa "magnetis" ke tengah */
+  scroll-snap-type: x mandatory; 
+  scroll-behavior: smooth;
+  
+  /* Tambahkan padding kiri-kanan agar kartu pertama bisa ke tengah */
+  padding-left: calc(50% - 160px); /* 160px adalah setengah dari lebar kartu desktop (320px/2) */
+  padding-right: calc(50% - 160px);
 }
 .porto-scroll::-webkit-scrollbar { display: none; }
 .porto-scroll:active { cursor: grabbing; }
@@ -277,6 +285,7 @@ nav {
     box-shadow 0.35s ease;
   opacity: 0.35;
   transform: scale(0.88) translateY(6px);
+  scroll-snap-align: center;
 }
 .porto-card.active {
   opacity: 1;
@@ -887,9 +896,18 @@ section {
   .form-row { grid-template-columns: 1fr; }
   .hero-porto-row::before,
   .hero-porto-row::after {
-    width: 40px;
+    display: none; 
   }
-  .porto-card { width: 260px; }
+  .porto-scroll {
+    /* Sesuaikan padding: 50% layar - setengah lebar kartu mobile (260px / 2 = 130px) */
+    padding-left: calc(50% - 130px);
+    padding-right: calc(50% - 130px);
+  }
+  .porto-card { 
+    width: 260px; 
+    /* Pastikan snap tetap aktif */
+    scroll-snap-align: center;
+  }
   .footer {
     padding: 30px 24px;
     flex-direction: column;
