@@ -750,7 +750,7 @@ onUnmounted(() => {
     <!-- ─── FOOTER ─── -->
     <footer class="footer">
       <div class="footer-text">
-        © 2026 {{ store.profile.name }} — Dibuat dengan Vue 3 ☕
+        © 2026 {{ store.profile.name }} — Dibuat dengan Vue 3
       </div>
       <div class="footer-socials">
         <a :href="store.profile.github" target="_blank" class="social-link"
