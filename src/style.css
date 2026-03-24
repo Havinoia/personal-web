@@ -244,65 +244,112 @@ nav {
   background: linear-gradient(to left, var(--bg) 20%, transparent);
 }
 
-/* ── PERBAIKAN PORTO SCROLL ── */
+/* ── PORTO SCROLL (VERSI FINAL) ── */
 .porto-scroll {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   overflow-x: auto;
-  /* Penting agar swipe lancar di HP */
   scroll-snap-type: x mandatory; 
   -webkit-overflow-scrolling: touch; 
   scrollbar-width: none;
-  padding: 20px 0 60px;
+  padding: 40px 0 80px;
   flex: 1;
-  /* Hilangkan padding-right lama, ganti dengan ini */
-  padding-left: calc(50% - 160px); 
+  position: relative;
+  
+  /* Menentukan area "target" snap ada di tengah container */
+  scroll-padding-left: calc(50% - 160px); 
+  padding-left: calc(50% - 160px);
 }
 
-/* Trik agar kartu terakhir bisa ke tengah */
+/* Ruang kosong di akhir agar kartu terakhir bisa ke tengah */
 .porto-scroll::after {
   content: '';
   flex-shrink: 0;
   width: calc(50% - 160px);
 }
 
+.porto-scroll::-webkit-scrollbar { display: none; }
+
+/* ── PORTO CARD (VERSI FINAL - TANPA JITTER) ── */
 .porto-card {
   flex-shrink: 0;
   width: 320px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px; /* Saya tambahkan sedikit radius agar lebih modern */
+  border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  user-select: none;
-  -webkit-user-select: none;
   
-  /* Efek Transisi */
-  transition: 
-    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.4s ease,
-    box-shadow 0.4s ease;
-
-  /* State Default (Saat tidak di tengah/tidak aktif) */
-  opacity: 0.35;
-  transform: scale(0.9) translateY(10px);
-  
-  /* Snap Alignment: Kunci utama agar kartu berhenti di tengah */
+  /* Snap ke tengah */
   scroll-snap-align: center;
+  
+  /* Transition: Gunakan 'will-change' agar browser tidak kaget saat scaling */
+  will-change: transform, opacity;
+  transition: 
+    opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+    transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+    border-color 0.3s ease;
+
+  /* State Default */
+  opacity: 0.3;
+  transform: scale(0.9);
 }
 
-/* ── PERBAIKAN DI MOBILE (768px) ── */
+/* State Aktif */
+.porto-card.active {
+  opacity: 1;
+  transform: scale(1); /* Pastikan scale tidak terlalu ekstrim peningkatannya */
+  border-color: rgba(0,229,160,0.4);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  z-index: 10;
+}
+
+/* Thumbnail & Image */
+.porto-card-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--surface2);
+  position: relative;
+  overflow: hidden;
+}
+
+.porto-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.porto-card.active .porto-card-img {
+  transform: scale(1.08);
+}
+
+/* Card Body */
+.porto-card-body {
+  padding: 16px;
+}
+
+.porto-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text2);
+  transition: color 0.3s;
+}
+
+.porto-card.active .porto-card-title {
+  color: var(--text);
+}
+
+/* ── MOBILE RESPONSIVE ── */
 @media (max-width: 768px) {
   .porto-scroll {
-    padding-left: calc(50% - 130px); /* 130px = setengah dari 260px */
+    padding-left: calc(50% - 130px);
+    scroll-padding-left: calc(50% - 130px);
   }
-  
   .porto-scroll::after {
     width: calc(50% - 130px);
   }
-
   .porto-card {
     width: 260px;
   }
