@@ -406,11 +406,9 @@ onUnmounted(() => {
 
 <template>
   <main>
-
     <!-- ─── HERO ─── -->
     <section class="hero" id="home">
       <div class="hero-glow-top"></div>
-
       <!-- Typewriter -->
       <div class="hero-typewriter-wrap">
         <div class="hero-typewriter-inner">
@@ -418,7 +416,6 @@ onUnmounted(() => {
           <span class="hero-cursor" :class="{ visible: showCursor }">|</span>
         </div>
       </div>
-
       <!-- Porto Scroll -->
       <div class="hero-porto-row">
         <button class="porto-arrow porto-arrow-left" @click="scrollPrev">
@@ -426,7 +423,6 @@ onUnmounted(() => {
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
-
         <div
           class="porto-scroll"
           ref="scrollContainer"
@@ -472,14 +468,12 @@ onUnmounted(() => {
             </div>
           </div>
         </div>
-
         <button class="porto-arrow porto-arrow-right" @click="scrollNext">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
         </button>
       </div>
-
       <!-- Foto + Nama -->
       <div class="hero-center">
         <div class="hero-photo-wrap">
@@ -502,7 +496,6 @@ onUnmounted(() => {
             Tersedia untuk project baru
           </div>
         </div>
-
         <div class="hero-info">
           <h1 class="hero-name">
             <span class="first">{{ store.profile.name.split(" ")[0] }}</span>
@@ -510,7 +503,7 @@ onUnmounted(() => {
           </h1>
           <div class="hero-role">{{ store.profile.role }}</div>
           <div class="hero-actions">
-            <a href="#skills" class="btn-primary">
+            <a href="#portfolio" class="btn-primary">
               Lihat Portfolio
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <line x1="7" y1="17" x2="17" y2="7"/>
