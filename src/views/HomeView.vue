@@ -41,7 +41,6 @@ const showCursor     = ref(true);
 const phrases = [
   "My Web Portfolio",
   "Fullstack Projects",
-  "Built with Vue & Laravel",
   "Open for Collaboration",
 ];
 let phraseIdx = 0, charIdx = 0, isDeleting = false;
