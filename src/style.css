@@ -291,7 +291,7 @@ nav {
   background: linear-gradient(to left, var(--bg) 20%, transparent);
 }
 
-/* ── PORTO SCROLL SECTION (CLEAN MERGER) ── */
+/* ── PORTO SCROLL LOGIC (FINAL MERGER) ── */
 .porto-scroll {
   display: flex;
   gap: 20px;
@@ -301,15 +301,15 @@ nav {
   scrollbar-width: none;
   padding: 20px 0 60px;
   flex: 1;
-  /* Kunci koordinat magnet snap */
-  scroll-padding-inline: calc(50% - 160px);
+  /* Kunci koordinat magnet snap agar kartu berhenti tepat di tengah */
+  scroll-padding-inline: calc(50% - 160px); 
   padding-left: calc(50% - 160px); 
   position: relative;
 }
 
 .porto-scroll::-webkit-scrollbar { display: none; }
 
-/* Trik agar kartu terakhir bisa ke tengah */
+/* Spacer agar kartu terakhir bisa ke tengah */
 .porto-scroll::after {
   content: '';
   flex-shrink: 0;
@@ -321,37 +321,31 @@ nav {
   width: 320px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px; /* Pakai radius yang lebih modern */
+  border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
   position: relative;
   user-select: none;
-  -webkit-user-select: none;
   
-  /* Snap Alignment & Stop (Solusi kartu ke-3 geser) */
+  /* Snap Logic */
   scroll-snap-align: center;
   scroll-snap-stop: always; 
   
-  /* Efek Transisi Gabungan */
   transition: 
     opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.4s ease,
-    box-shadow 0.4s ease;
+    border-color 0.4s ease;
 
-  /* State Default: Gunakan scale yang konsisten */
   opacity: 0.35;
   transform: scale(0.9) translateY(8px);
 }
 
-/* State Aktif (Saat di tengah) */
+/* State Aktif (Target ID yang di tengah) */
 .porto-card.active {
   opacity: 1;
   transform: scale(1) translateY(0);
   border-color: rgba(0,229,160,0.3);
-  box-shadow: 
-    0 0 0 1px rgba(0,229,160,0.1),
-    0 20px 40px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
   z-index: 10;
 }
 
