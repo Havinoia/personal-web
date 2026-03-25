@@ -8,6 +8,7 @@
   padding: 0;
 }
 
+
 /* ══════════════════════════════════════════════════════════════
    THEME: MINIMAL LIGHT - Clean & Modern
 ══════════════════════════════════════════════════════════════ */
@@ -29,7 +30,176 @@
   --radius: 16px;
   --radius-lg: 24px;
 }
+/* ══════════════════════════════════════════════════════════════
+   DARK MODE — tambahkan di bawah :root yang sudah ada
+══════════════════════════════════════════════════════════════ */
 
+/* Smooth transition untuk SEMUA elemen saat toggle */
+*,
+*::before,
+*::after {
+  transition:
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Override transisi untuk elemen yang sudah punya transition sendiri
+   agar tidak bentrok (tetap smooth tapi tidak dobel) */
+.porto-card,
+.porto-card-img,
+.porto-card-meta,
+.porto-card-title,
+.porto-card-tags,
+.porto-card-tag,
+.btn-primary,
+.btn-secondary,
+.nav-cta,
+.skill-tag,
+.social-link,
+.theme-toggle,
+.porto-arrow,
+.contact-info-item,
+.skill-category {
+  transition:
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── DARK THEME VARIABLES ── */
+html.dark {
+  --bg: #0a0a0a;
+  --bg2: #111111;
+  --bg3: #1a1a1a;
+  --surface: #111111;
+  --surface2: #1a1a1a;
+  --border: rgba(255, 255, 255, 0.06);
+  --border2: rgba(255, 255, 255, 0.12);
+  --accent: #f5f5f5;
+  --accent2: #d4d4d4;
+  --accent-dim: rgba(245, 245, 245, 0.08);
+  --text: #f5f5f5;
+  --text2: #a3a3a3;
+  --text3: #525252;
+}
+
+/* ── DARK: Body subtle background ── */
+html.dark body::before {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 255, 255, 0.03), transparent 50%);
+}
+
+/* ── DARK: Nav ── */
+html.dark nav {
+  background: rgba(10, 10, 10, 0.85);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ── DARK: Buttons ── */
+html.dark .btn-primary {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+html.dark .btn-primary:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* ── DARK: Hero photo glow ── */
+html.dark .hero-photo-glow {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04), transparent 70%);
+}
+
+/* ── DARK: Hero status badge ── */
+html.dark .hero-status-badge {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* ── DARK: Porto card ── */
+html.dark .porto-card.active {
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+/* ── DARK: Skill category ── */
+html.dark .skill-category:hover {
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+}
+
+/* ── DARK: Contact info item ── */
+html.dark .contact-info-item:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+html.dark .contact-info-icon {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ── DARK: Form inputs ── */
+html.dark .form-input:focus,
+html.dark .form-textarea:focus {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* ── DARK: Hero porto fade gradients ── */
+html.dark .hero-porto-row::before {
+  background: linear-gradient(to right, var(--bg) 40%, transparent);
+}
+html.dark .hero-porto-row::after {
+  background: linear-gradient(to left, var(--bg) 40%, transparent);
+}
+
+/* ── DARK: Porto arrow ── */
+html.dark .porto-arrow {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+html.dark .porto-arrow:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ── DARK: Scrollbar ── */
+html.dark ::-webkit-scrollbar-track {
+  background: var(--bg2);
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: var(--border2);
+}
+
+/* ── DARK: Nav CTA button (inverted karena accent jadi putih) ── */
+html.dark .nav-cta {
+  background: var(--accent);
+  color: #0a0a0a;
+}
+html.dark .nav-cta:hover {
+  background: var(--accent2);
+  color: #0a0a0a;
+}
+
+/* ── DARK: Btn primary text (inverted) ── */
+html.dark .btn-primary {
+  color: #0a0a0a;
+}
+html.dark .btn-submit {
+  color: #0a0a0a;
+}
+
+/* ── DARK: Skill tag hover ── */
+html.dark .skill-tag:hover {
+  background: var(--accent);
+  color: #0a0a0a;
+}
+
+/* ── DARK: Social link hover ── */
+html.dark .social-link:hover {
+  background: var(--accent);
+  color: #0a0a0a;
+}
+
+/* ── DARK: Photo silhouette placeholder ── */
+html.dark .hero-photo-placeholder {
+  background: linear-gradient(180deg, var(--bg3) 0%, var(--bg2) 100%);
+}
 html {
   scroll-behavior: smooth;
 }
@@ -562,6 +732,7 @@ nav {
   border-color: var(--text);
   background: var(--accent-dim);
 }
+
 
 /* ── SECTION COMMONS ── */
 section {

@@ -102,7 +102,7 @@ export const usePortfolioStore = defineStore("portfolio", {
       github: 'https://github.com/Havinoia',
       linkedin: 'https://linkedin.com/in/username',
       available: true,
-      photo: '/images/profile.png',
+      photo: '/images/havin.jpeg',
     },
     contact: {
       email: 'havin.personal@gmail.com',
