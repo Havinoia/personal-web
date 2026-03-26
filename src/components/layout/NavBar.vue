@@ -35,9 +35,10 @@ onMounted(() => {
 
     <ul class="nav-links">
       <li><RouterLink to="/">Home</RouterLink></li>
+      <li><a href="#home">Portfolio</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#portfolio">Portfolio</a></li>
+      <!-- <li><a href="#skills">Skills</a></li> -->
+      <li><a href="#achievements">Achievements</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
 
