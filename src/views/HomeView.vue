@@ -836,7 +836,7 @@ onUnmounted(() => {
           </div>
           <div class="hero-status-badge">
             <div class="hero-eyebrow-dot"></div>
-            Tersedia untuk project baru
+            Available for Work
           </div>
         </div>
 
