@@ -992,7 +992,7 @@ section { position: relative; z-index: 1; padding: 100px 64px; }
   font-family: var(--font); font-weight: 600; font-size: 13px;
   border: none; border-radius: 100px; cursor: pointer;
   transition: all 0.22s var(--ease); align-self: flex-start;
-  box-shadow: 0 4px 24px rgba(168,85,247,0.6);
+  box-shadow: 0 4px 24px #4834d4;
 }
 .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(168,85,247,0.5); filter: brightness(1.1); }
 .btn-submit:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; filter: none !important; }
