@@ -910,7 +910,7 @@ onUnmounted(() => {
               }}
             </p>
             <div class="about-scroll-hint">
-              Scroll untuk menyusun paragraf
+              Scroll to Adjust Paragraph Order
             </div>
           </div>
 
