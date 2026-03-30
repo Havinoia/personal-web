@@ -5,62 +5,131 @@ import emailjs from "@emailjs/browser";
 
 const store = usePortfolioStore();
 
-// ── About panel ──
-const showAbout = ref(false);
-const aboutPanel = ref(null);
-function toggleAbout() {
-  showAbout.value = !showAbout.value;
-  if (showAbout.value) {
-    setTimeout(() => {
-      aboutPanel.value?.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-      });
-    }, 120);
+const aboutSection = ref(null);
+const aboutHeader = ref(null);
+const aboutStage = ref(null);
+const aboutProgress = ref(0);
+const aboutParagraph = computed(
+  () =>
+    store.profile.bio ||
+    "Bachelor's degree graduate in Informatics from Universitas Teknologi Yogyakarta with a GPA of 3.60. Possesses skills in system analysis, application development, and data processing. Accustomed to thinking systematically, solving problems in a structured manner, and maintaining high accuracy in managing information. Demonstrates strong adaptability, discipline, and the ability to work both independently and collaboratively within a team. Committed to continuous learning and developing both technical and non-technical competencies to contribute effectively in a professional work environment.",
+);
+const aboutWords = computed(() => aboutParagraph.value.trim().split(/\s+/));
+let aboutScrollFrame = null;
+
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function updateAboutProgress() {
+  const section = aboutSection.value;
+  const header = aboutHeader.value;
+  const stage = aboutStage.value;
+  if (!section || !header || typeof window === "undefined") return;
+
+  const headerRect = header.getBoundingClientRect();
+  const viewportHeight = window.innerHeight || 1;
+  const startLine = viewportHeight * 0.86;
+  const endDistance = Math.max(viewportHeight * 0.9, 1);
+  let traveled = startLine - headerRect.top;
+
+  if (stage) {
+    const stageRect = stage.getBoundingClientRect();
+    const stageOffset = Math.max(0, startLine - stageRect.top);
+    traveled = Math.max(traveled, stageOffset * 0.9);
   }
+
+  aboutProgress.value = clamp(traveled / endDistance, 0, 1);
+}
+
+function requestAboutProgressUpdate() {
+  if (aboutScrollFrame) return;
+  aboutScrollFrame = requestAnimationFrame(() => {
+    aboutScrollFrame = null;
+    updateAboutProgress();
+  });
+}
+
+function getAboutWordStyle(index) {
+  const totalWords = Math.max(aboutWords.value.length, 1);
+  const sequencePosition = aboutProgress.value * (totalWords + 4);
+  const rawReveal = clamp(sequencePosition - index + 0.15, 0, 1);
+  const reveal = rawReveal * rawReveal * (3 - 2 * rawReveal);
+  const xOffset = (((index % 5) - 2) * 8) * (1 - reveal);
+  const yOffset = (10 + (index % 4) * 3.5) * (1 - reveal);
+  const rotation = (((index % 4) - 1.5) * 0.9) * (1 - reveal);
+
+  return {
+    opacity: (0.04 + reveal * 0.96).toFixed(3),
+    transform: `translate3d(${(xOffset * 1.2).toFixed(1)}px, ${(yOffset * 1.35).toFixed(1)}px, 0) rotate(${(rotation * 1.35).toFixed(1)}deg) scale(${(0.95 + reveal * 0.05).toFixed(3)})`,
+    filter: `blur(${((1 - reveal) * 5.8).toFixed(2)}px)`,
+    color:
+      reveal > 0.96
+        ? "var(--text)"
+        : `rgba(236, 255, 240, ${(0.24 + reveal * 0.56).toFixed(3)})`,
+  };
+}
+
+function getAboutParagraphStyle() {
+  const eased = clamp((aboutProgress.value - 0.03) / 0.88, 0, 1);
+  const reveal = eased * eased * (3 - 2 * eased);
+
+  return {
+    opacity: (0.08 + reveal * 0.92).toFixed(3),
+    transform: `translate3d(0, ${(28 * (1 - reveal)).toFixed(1)}px, 0) scale(${(0.97 + reveal * 0.03).toFixed(3)})`,
+    filter: `blur(${((1 - reveal) * 10).toFixed(2)}px)`,
+  };
 }
 
 // ════════════════════════════════════════
 // TECH STACK — Filter & Animate
 // ════════════════════════════════════════
 const activeFilter = ref("All");
-const skillsAnimated = ref(false);
+const displayedSkills = ref([]);
+const isFilteringSkills = ref(false);
+const skillsViewKey = ref(0);
+let skillsFilterTimer = null;
 
-// 1. Ambil opsi filter langsung dari data store secara dinamis
+const normalizedSkills = computed(() =>
+  store.skills.flatMap((category, categoryIndex) =>
+    category.items.map((item, itemIndex) => ({
+      id: `${category.category}-${item.name || item}-${categoryIndex}-${itemIndex}`,
+      name: item.name || item,
+      img: item.img || null,
+      cat: category.category,
+    })),
+  ),
+);
+
 const filterOptions = computed(() => [
   "All",
-  ...store.skills.map((s) => s.category),
+  ...new Set(store.skills.map((skill) => skill.category)),
 ]);
 
-// 2. Logic Filter & Flatten dalam satu langkah efisien
-const flatFilteredSkills = computed(() => {
-  // Ambil kategori yang sesuai (atau semua jika 'All')
-  const categories =
-    activeFilter.value === "All"
-      ? store.skills
-      : store.skills.filter((s) => s.category === activeFilter.value);
+function getSkillsByFilter(category = activeFilter.value) {
+  if (category === "All") return normalizedSkills.value;
+  return normalizedSkills.value.filter((skill) => skill.cat === category);
+}
 
-  // Flatten items dan pastikan formatnya konsisten (Object)
-  return categories.flatMap((cat) =>
-    cat.items.map((item) => ({
-      name: item.name || item, // Fallback jika item cuma string
-      img: item.img || null,
-      cat: cat.category,
-    })),
-  );
-});
+function syncDisplayedSkills(category = activeFilter.value) {
+  displayedSkills.value = getSkillsByFilter(category);
+  skillsViewKey.value += 1;
+}
 
-// 3. Setter filter dengan trigger animasi
 const setFilter = (cat) => {
-  if (activeFilter.value === cat) return; // Skip jika klik kategori yang sama
-
+  if (activeFilter.value === cat && !isFilteringSkills.value) return;
   activeFilter.value = cat;
+  isFilteringSkills.value = true;
 
-  // Reset & Re-trigger animasi
-  skillsAnimated.value = false;
-  nextTick(() => {
-    skillsAnimated.value = true;
-  });
+  clearTimeout(skillsFilterTimer);
+  skillsFilterTimer = setTimeout(() => {
+    syncDisplayedSkills(cat);
+    requestAnimationFrame(() => {
+      if (activeFilter.value === cat) {
+        isFilteringSkills.value = false;
+      }
+    });
+  }, 140);
 };
 
 // ════════════════════════════════════════
@@ -125,49 +194,48 @@ function initScrollFade() {
   });
 }
 
-// Skills section observer — trigger bar animations
-let skillsObserver = null;
-function initSkillsObserver() {
-  const section = document.querySelector(".skills-section");
-  if (!section) return;
-  skillsObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          skillsAnimated.value = true;
-        }
-      });
-    },
-    { threshold: 0.2 },
+function hasFinePointer() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches
   );
-  skillsObserver.observe(section);
 }
 
 // Cert card 3D tilt
 function onCertMouseMove(e) {
+  if (!hasFinePointer()) return;
   const card = e.currentTarget;
+  const shine = card?.querySelector(".cert-card-shine");
+  if (!card || !shine) return;
   const rect = card.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
   const cx = rect.width / 2;
   const cy = rect.height / 2;
-  const rotY = ((x - cx) / cx) * 7;
-  const rotX = ((cy - y) / cy) * 5;
-  card.style.transform = `perspective(600px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
-  card.querySelector(".cert-card-shine").style.background =
-    `radial-gradient(circle at ${x}px ${y}px, rgba(168,85,247,0.12) 0%, transparent 65%)`;
+  const rotY = ((x - cx) / cx) * 5.5;
+  const rotX = ((cy - y) / cy) * 4;
+  card.style.transform = `perspective(700px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.018)`;
+  card.style.setProperty("--cert-pointer-x", `${(x / rect.width) * 100}%`);
+  card.style.setProperty("--cert-pointer-y", `${(y / rect.height) * 100}%`);
+  card.style.setProperty("--cert-tilt-x", `${(x - cx) * 0.08}px`);
+  card.style.setProperty("--cert-tilt-y", `${(y - cy) * 0.06}px`);
+  shine.style.opacity = "1";
 }
 function onCertMouseLeave(e) {
   const card = e.currentTarget;
+  const shine = card?.querySelector(".cert-card-shine");
+  if (!card || !shine) return;
   card.style.transform = "";
-  card.querySelector(".cert-card-shine").style.background = "none";
+  card.style.removeProperty("--cert-pointer-x");
+  card.style.removeProperty("--cert-pointer-y");
+  card.style.removeProperty("--cert-tilt-x");
+  card.style.removeProperty("--cert-tilt-y");
+  shine.style.opacity = "";
 }
 
 // ════════════════════════════════════════
 // PORTO SCROLL
 // ════════════════════════════════════════
-const GAP = 20;
-const CENTER_OFFSET = -30;
 const MIN_REPEAT = 10;
 const MIN_CARDS = 20;
 
@@ -175,8 +243,15 @@ function getCardW() {
   const card = scrollContainer.value?.querySelector(".porto-card");
   return card ? card.offsetWidth : 320;
 }
+function getGap() {
+  const el = scrollContainer.value;
+  if (!el) return 20;
+  const styles = window.getComputedStyle(el);
+  const gap = parseFloat(styles.columnGap || styles.gap || "20");
+  return Number.isFinite(gap) ? gap : 20;
+}
 function getStride() {
-  return getCardW() + GAP;
+  return getCardW() + getGap();
 }
 
 const isLoopMode = computed(() => store.projects.length >= 6);
@@ -279,12 +354,12 @@ let vel = 0,
 function getNearestIndexLoop() {
   const el = scrollContainer.value;
   if (!el) return 0;
-  const center = el.scrollLeft + el.offsetWidth / 2 + CENTER_OFFSET;
+  const center = el.scrollLeft + el.clientWidth / 2;
   return Math.round((center - getCardW() / 2) / getStride());
 }
 function getTargetForIndex(i) {
   const el = scrollContainer.value;
-  return i * getStride() + getCardW() / 2 - el.offsetWidth / 2 - CENTER_OFFSET;
+  return i * getStride() + getCardW() / 2 - el.clientWidth / 2;
 }
 function checkLoop() {
   const el = scrollContainer.value;
@@ -328,15 +403,12 @@ function snapNearestLoop() {
 function recalcPadding() {
   const el = scrollContainer.value;
   if (!el) return;
-  paddingInline.value = Math.max(
-    0,
-    Math.round(el.offsetWidth / 2 - getCardW() / 2 + Math.abs(CENTER_OFFSET)),
-  );
+  paddingInline.value = Math.max(0, Math.round(el.clientWidth / 2 - getCardW() / 2));
 }
 function getNearestIndexNoLoop() {
   const el = scrollContainer.value;
   if (!el) return 0;
-  const center = el.scrollLeft + el.offsetWidth / 2;
+  const center = el.scrollLeft + el.clientWidth / 2;
   let best = 0,
     bestDist = Infinity;
   store.projects.forEach((_, i) => {
@@ -354,7 +426,7 @@ function getTargetNoLoop(i) {
     paddingInline.value +
     i * getStride() +
     getCardW() / 2 -
-    scrollContainer.value.offsetWidth / 2
+    scrollContainer.value.clientWidth / 2
   );
 }
 function snapToIndexNoLoop(i) {
@@ -405,9 +477,11 @@ function scrollNext() {
     : snapToIndexNoLoop(getNearestIndexNoLoop() + 1);
 }
 function tryOpenProject(e) {
+  const container = scrollContainer.value;
+  if (!container) return;
   const cardEl = e.target.closest(".porto-card");
   if (!cardEl) return;
-  const all = [...scrollContainer.value.querySelectorAll(".porto-card")];
+  const all = [...container.querySelectorAll(".porto-card")];
   const idx = all.indexOf(cardEl);
   const proj = loopedProjects.value[idx];
   if (!proj) return;
@@ -421,12 +495,13 @@ function tryOpenProject(e) {
 function startMomentum() {
   if (momentumId) cancelAnimationFrame(momentumId);
   if (snapId) cancelAnimationFrame(snapId);
+  const el = scrollContainer.value;
+  if (!el) return;
   let v = Math.sign(vel * 16 * 8) * Math.min(Math.abs(vel * 16 * 8), 55);
   if (Math.abs(v) < 0.8) {
     snapNearest();
     return;
   }
-  const el = scrollContainer.value;
   function run() {
     v *= 0.91;
     el.scrollLeft -= v;
@@ -439,19 +514,22 @@ function startMomentum() {
 }
 
 function onMouseDown(e) {
+  const el = scrollContainer.value;
+  if (!el) return;
   if (momentumId) cancelAnimationFrame(momentumId);
   if (snapId) cancelAnimationFrame(snapId);
   isDown = true;
   isDragging = false;
   startX = e.pageX;
-  scrollStart = scrollContainer.value.scrollLeft;
+  scrollStart = el.scrollLeft;
   lastX = e.pageX;
   lastT = performance.now();
   vel = 0;
-  scrollContainer.value.style.cursor = "grabbing";
+  el.style.cursor = "grabbing";
 }
 function onMouseMove(e) {
-  if (!isDown) return;
+  const el = scrollContainer.value;
+  if (!isDown || !el) return;
   e.preventDefault();
   const dx = e.pageX - startX;
   if (Math.abs(dx) > 10) isDragging = true;
@@ -461,14 +539,15 @@ function onMouseMove(e) {
   if (dt > 0) vel = (e.pageX - lastX) / dt;
   lastX = e.pageX;
   lastT = now;
-  scrollContainer.value.scrollLeft = scrollStart - dx;
+  el.scrollLeft = scrollStart - dx;
   if (isLoopMode.value) checkLoop();
   activeIndex.value = getActiveFromScroll();
 }
 function onMouseUp(e) {
+  const el = scrollContainer.value;
   if (!isDown) return;
   isDown = false;
-  scrollContainer.value.style.cursor = "grab";
+  if (el) el.style.cursor = "grab";
   if (!isDragging) {
     tryOpenProject(e);
     isDragging = false;
@@ -478,10 +557,11 @@ function onMouseUp(e) {
   startMomentum();
 }
 function onMouseLeave() {
+  const el = scrollContainer.value;
   if (!isDown) return;
   isDown = false;
   isDragging = false;
-  scrollContainer.value.style.cursor = "grab";
+  if (el) el.style.cursor = "grab";
   startMomentum();
 }
 
@@ -492,16 +572,20 @@ let tStart = 0,
   tVel = 0,
   tDrag = false;
 function onTouchStart(e) {
+  const el = scrollContainer.value;
+  if (!el) return;
   if (momentumId) cancelAnimationFrame(momentumId);
   if (snapId) cancelAnimationFrame(snapId);
   tStart = e.touches[0].pageX;
-  tScroll = scrollContainer.value.scrollLeft;
+  tScroll = el.scrollLeft;
   tLastX = e.touches[0].pageX;
   tLastT = performance.now();
   tVel = 0;
   tDrag = false;
 }
 function onTouchMove(e) {
+  const el = scrollContainer.value;
+  if (!el) return;
   const dx = e.touches[0].pageX - tStart;
   if (Math.abs(dx) > 10) tDrag = true;
   if (!tDrag) return;
@@ -510,7 +594,7 @@ function onTouchMove(e) {
   if (dt > 0) tVel = (e.touches[0].pageX - tLastX) / dt;
   tLastX = e.touches[0].pageX;
   tLastT = now;
-  scrollContainer.value.scrollLeft = tScroll - dx;
+  el.scrollLeft = tScroll - dx;
   if (isLoopMode.value) checkLoop();
   activeIndex.value = getActiveFromScroll();
 }
@@ -524,6 +608,11 @@ function onTouchEnd(e) {
   startMomentum();
 }
 
+function onTouchCancel() {
+  tDrag = false;
+  tVel = 0;
+}
+
 let resizeTimer = null;
 function onResize() {
   clearTimeout(resizeTimer);
@@ -532,11 +621,13 @@ function onResize() {
       recalcPadding();
       snapToIndexNoLoop(activeIndex.value);
     } else snapNearestLoop();
+    requestAboutProgressUpdate();
   }, 150);
 }
 
 onMounted(() => {
   const el = scrollContainer.value;
+  syncDisplayedSkills();
 
   // 1. Inisialisasi Posisi Project Scroll (Loop vs No-Loop)
   if (el) {
@@ -559,6 +650,9 @@ onMounted(() => {
   // 2. Event Listeners Global
   window.addEventListener("resize", onResize);
   window.addEventListener("keydown", onModalKeydown);
+  window.addEventListener("scroll", requestAboutProgressUpdate, {
+    passive: true,
+  });
 
   // 3. Efek Visual (Typewriter & Cursor)
   typeTimer = setTimeout(typewrite, 600);
@@ -570,27 +664,30 @@ onMounted(() => {
   // Digabung dalam satu timeout singkat agar tidak memberatkan loading awal
   setTimeout(() => {
     initScrollFade();
-    // Jika initSkillsObserver sudah didefinisikan di atas, panggil di sini
-    if (typeof initSkillsObserver === "function") initSkillsObserver();
   }, 150);
+
+  requestAboutProgressUpdate();
 });
 
 onUnmounted(() => {
   // 1. Hentikan Animasi (Scroll & Momentum)
   if (momentumId) cancelAnimationFrame(momentumId);
   if (snapId) cancelAnimationFrame(snapId);
+  if (aboutScrollFrame) cancelAnimationFrame(aboutScrollFrame);
 
   // 2. Bersihkan Timer & Interval
   clearTimeout(typeTimer);
   clearTimeout(resizeTimer);
+  clearTimeout(skillsFilterTimer);
   clearInterval(cursorTimer);
 
   // 3. Lepas Event Listeners
   window.removeEventListener("resize", onResize);
   window.removeEventListener("keydown", onModalKeydown);
+  window.removeEventListener("scroll", requestAboutProgressUpdate);
 
   // 4. Matikan Semua Observer (Mencegah Memory Leak)
-  [observerIn, observerOut, skillsObserver].forEach((obs) => {
+  [observerIn, observerOut].forEach((obs) => {
     if (obs && typeof obs.disconnect === "function") obs.disconnect();
   });
 
@@ -612,8 +709,13 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <div class="hero-porto-row">
-        <button class="porto-arrow porto-arrow-left" @click="scrollPrev">
+      <div class="hero-porto-row" id="portfolio">
+        <button
+          type="button"
+          class="porto-arrow porto-arrow-left"
+          aria-label="Project sebelumnya"
+          @click="scrollPrev"
+        >
           <svg
             width="15"
             height="15"
@@ -643,10 +745,11 @@ onUnmounted(() => {
           @touchstart="onTouchStart"
           @touchmove="onTouchMove"
           @touchend="onTouchEnd"
+          @touchcancel="onTouchCancel"
         >
           <div
             v-for="(project, index) in loopedProjects"
-            :key="index"
+            :key="`${project.id ?? 'project'}-${index}`"
             class="porto-card"
             :class="{ active: index % store.projects.length === activeIndex }"
           >
@@ -681,7 +784,12 @@ onUnmounted(() => {
             </div>
           </div>
         </div>
-        <button class="porto-arrow porto-arrow-right" @click="scrollNext">
+        <button
+          type="button"
+          class="porto-arrow porto-arrow-right"
+          aria-label="Project berikutnya"
+          @click="scrollNext"
+        >
           <svg
             width="15"
             height="15"
@@ -698,18 +806,33 @@ onUnmounted(() => {
       <div class="hero-center">
         <div class="hero-photo-wrap">
           <div class="hero-photo-glow"></div>
+          <div class="hero-photo-aura hero-photo-aura-one"></div>
+          <div class="hero-photo-aura hero-photo-aura-two"></div>
+          <div class="hero-photo-pill hero-photo-pill-top">
+            <span class="hero-photo-pill-label">Experience</span>
+            <strong>{{ store.profile.yearsExp || "2" }}+ Years</strong>
+          </div>
+          <div class="hero-photo-pill hero-photo-pill-bottom">
+            <span class="hero-photo-pill-dot"></span>
+            {{ store.projects.length || "10" }}+ Projects shipped
+          </div>
           <div class="hero-photo-frame">
-            <img
-              v-if="store.profile.photo"
-              :src="store.profile.photo"
-              :alt="store.profile.name"
-              class="hero-photo-img"
-            />
-            <div v-else class="hero-photo-placeholder">
-              <div class="photo-silhouette">
-                <div class="photo-silhouette-body"></div>
+            <div class="hero-photo-frame-inner">
+              <img
+                v-if="store.profile.photo"
+                :src="store.profile.photo"
+                :alt="store.profile.name"
+                class="hero-photo-img"
+              />
+              <div v-else class="hero-photo-placeholder">
+                <div class="photo-silhouette">
+                  <div class="photo-silhouette-body"></div>
+                </div>
               </div>
             </div>
+            <div class="hero-photo-shine"></div>
+            <div class="hero-photo-corner hero-photo-corner-top"></div>
+            <div class="hero-photo-corner hero-photo-corner-bottom"></div>
           </div>
           <div class="hero-status-badge">
             <div class="hero-eyebrow-dot"></div>
@@ -744,109 +867,130 @@ onUnmounted(() => {
                 </span>
               </a>
               <a href="#contact" class="btn-secondary">Contact Me</a>
-              <button
-                class="btn-about"
-                :class="{ active: showAbout }"
-                @click="toggleAbout"
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ ABOUT ═══ -->
+    <section class="about-section about-scroll-section" id="about" ref="aboutSection">
+      <div class="about-scroll-track">
+        <div class="about-sticky-shell">
+          <div class="section-header about-header" ref="aboutHeader">
+        <div class="section-label scroll-fade">About</div>
+        <h2 class="section-title scroll-fade" data-delay="1">
+          Building thoughtful products from interface to infrastructure
+        </h2>
+        <p class="section-sub scroll-fade" data-delay="2">
+          {{ store.profile.role }} based in
+          {{ store.profile.location || "Indonesia" }}.
+        </p>
+          </div>
+
+          <div class="about-text-stage" ref="aboutStage">
+            <p
+              class="about-word-paragraph about-word-paragraph-animated"
+              :aria-label="aboutParagraph"
+              :style="getAboutParagraphStyle()"
+            >
+              <span
+                v-for="(word, index) in aboutWords"
+                :key="`${word}-${index}`"
+                class="about-word"
+                :style="getAboutWordStyle(index)"
               >
-                <span>About Me</span>
-                <svg
-                  class="btn-about-arrow"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                >
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
+                {{ word }}
+              </span>
+            </p>
+            <p class="about-word-paragraph about-word-paragraph-hidden" :aria-hidden="true">
+              {{
+                store.profile.bio ||
+                "Seorang fullstack developer yang passionate dalam membangun produk digital yang elegan dan fungsional. Saya suka bekerja di semua lapisan — dari desain UI hingga arsitektur backend."
+              }}
+            </p>
+            <div class="about-scroll-hint">
+              Scroll untuk menyusun paragraf
             </div>
           </div>
 
-          <Transition name="about-slide">
-            <div v-if="showAbout" class="about-panel" ref="aboutPanel">
-              <div class="about-panel-line"></div>
-              <div class="about-bio">
-                <p>
-                  {{
-                    store.profile.bio ||
-                    "Seorang fullstack developer yang passionate dalam membangun produk digital yang elegan dan fungsional. Saya suka bekerja di semua lapisan — dari desain UI hingga arsitektur backend."
-                  }}
-                </p>
+          <div class="about-side-stack">
+          <div class="about-mini-card scroll-fade" data-delay="2">
+            <div class="about-mini-title">Highlights</div>
+            <div class="about-stats">
+              <div class="about-stat">
+                <span class="about-stat-num"
+                  >{{ store.profile.yearsExp || "2" }}+</span
+                >
+                <span class="about-stat-label">Tahun Pengalaman</span>
               </div>
-              <div class="about-stats">
-                <div class="about-stat">
-                  <span class="about-stat-num"
-                    >{{ store.profile.yearsExp || "2" }}+</span
-                  >
-                  <span class="about-stat-label">Tahun Pengalaman</span>
-                </div>
-                <div class="about-stat-divider"></div>
-                <div class="about-stat">
-                  <span class="about-stat-num"
-                    >{{ store.projects.length || "10" }}+</span
-                  >
-                  <span class="about-stat-label">Project Selesai</span>
-                </div>
-                <div class="about-stat-divider"></div>
-                <div class="about-stat">
-                  <span class="about-stat-num"
-                    >{{ store.profile.clients || "8" }}+</span
-                  >
-                  <span class="about-stat-label">Client Puas</span>
-                </div>
+              <div class="about-stat-divider"></div>
+              <div class="about-stat">
+                <span class="about-stat-num"
+                  >{{ store.projects.length || "10" }}+</span
+                >
+                <span class="about-stat-label">Project Selesai</span>
               </div>
-              <div class="about-chips">
-                <div class="about-chip" v-if="store.profile.location">
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  {{ store.profile.location }}
-                </div>
-                <div class="about-chip" v-if="store.profile.university">
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                    <path d="M6 12v5c3 3 9 3 12 0v-5" />
-                  </svg>
-                  {{ store.profile.university }}
-                </div>
-                <div class="about-chip">
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
-                  </svg>
-                  {{
-                    store.profile.availability ||
-                    "Tersedia fulltime & freelance"
-                  }}
-                </div>
+              <div class="about-stat-divider"></div>
+              <div class="about-stat">
+                <span class="about-stat-num"
+                  >{{ store.profile.clients || "8" }}+</span
+                >
+                <span class="about-stat-label">Client Puas</span>
               </div>
             </div>
-          </Transition>
+          </div>
+
+          <div class="about-mini-card scroll-fade" data-delay="3">
+            <div class="about-mini-title">Details</div>
+            <div class="about-chips">
+              <div class="about-chip" v-if="store.profile.location">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                {{ store.profile.location }}
+              </div>
+              <div class="about-chip" v-if="store.profile.university">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                  <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                </svg>
+                {{ store.profile.university }}
+              </div>
+              <div class="about-chip">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                {{
+                  store.profile.availability || "Tersedia fulltime & freelance"
+                }}
+              </div>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
     </section>
@@ -863,8 +1007,10 @@ onUnmounted(() => {
         <button
           v-for="opt in filterOptions"
           :key="opt"
+          type="button"
           class="skills-filter-btn"
           :class="{ active: activeFilter === opt }"
+          :aria-pressed="activeFilter === opt"
           @click="setFilter(opt)"
         >
           {{ opt }}
@@ -872,28 +1018,36 @@ onUnmounted(() => {
       </div>
 
       <div class="skills-container-centered">
-        <TransitionGroup name="skill-fade" tag="div" class="skills-icon-grid">
+        <div
+          class="skills-grid-shell"
+          :class="{ 'is-filtering': isFilteringSkills }"
+        >
           <div
-            v-for="(item, i) in flatFilteredSkills"
-            :key="item.name"
-            class="skill-icon-box"
-            :style="{
-              '--delay': i * 0.04 + 's',
-              '--float-delay': i * 0.18 + 's',
-            }"
+            :key="skillsViewKey"
+            class="skills-icon-grid"
           >
-            <div class="skill-icon-wrap">
-              <img
-                v-if="item.img"
-                :src="item.img"
-                :alt="item.name"
-                class="skill-icon-img"
-              />
-              <span v-else class="skill-icon-emoji">⚡</span>
+            <div
+              v-for="(item, i) in displayedSkills"
+              :key="item.id"
+              class="skill-icon-box"
+              :style="{
+                '--delay': i * 0.04 + 's',
+                '--float-delay': i * 0.18 + 's',
+              }"
+            >
+              <div class="skill-icon-wrap">
+                <img
+                  v-if="item.img"
+                  :src="item.img"
+                  :alt="item.name"
+                  class="skill-icon-img"
+                />
+                <span v-else class="skill-icon-emoji">⚡</span>
+              </div>
+              <span class="skill-icon-label">{{ item.name }}</span>
             </div>
-            <span class="skill-icon-label">{{ item.name }}</span>
           </div>
-        </TransitionGroup>
+        </div>
       </div>
     </section>
 
@@ -1150,136 +1304,88 @@ onUnmounted(() => {
         </p>
       </div>
       <div class="contact-grid">
-        <ul class="contact-info-list">
-          <li class="contact-info-item scroll-fade" data-delay="1">
-            <div class="contact-info-icon">
-              <img
-                v-if="store.contact?.email_img"
-                :src="store.contact.email_img"
-                class="hero-photo-img"
-                alt=""
-              />
-              <svg
-                v-else
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-              >
-                <path
-                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+        <ul class="contact-info-list" aria-label="Contact links">
+          <li v-if="store.contact?.email_img" class="scroll-fade" data-delay="1">
+            <a
+              :href="`mailto:${store.profile.email}`"
+              class="contact-info-item"
+              aria-label="Email"
+              title="Email"
+            >
+              <span class="contact-info-icon">
+                <img
+                  :src="store.contact.email_img"
+                  class="contact-info-img"
+                  alt="Email"
                 />
-                <polyline points="22,6 12,13 2,6" />
-              </svg>
-            </div>
-            <div>
-              <div class="contact-info-label">Email</div>
-              <div class="contact-info-value">{{ store.profile.email }}</div>
-            </div>
+              </span>
+            </a>
           </li>
-          <li class="contact-info-item scroll-fade" data-delay="2">
-            <div class="contact-info-icon">
-              <img
-                v-if="store.contact?.whatsapp_img"
-                :src="store.contact.whatsapp_img"
-                class="hero-photo-img"
-                alt=""
-              />
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-              >
-                <path
-                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+          <li
+            v-if="store.contact?.whatsapp_img"
+            class="scroll-fade"
+            data-delay="2"
+          >
+            <a
+              :href="'https://wa.me/6281252205174?text=Halo%20saya%20tertarik%20dengan%20project%20anda'"
+              target="_blank"
+              rel="noreferrer"
+              class="contact-info-item"
+              aria-label="WhatsApp"
+              title="WhatsApp"
+            >
+              <span class="contact-info-icon">
+                <img
+                  :src="store.contact.whatsapp_img"
+                  class="contact-info-img"
+                  alt="WhatsApp"
                 />
-              </svg>
-            </div>
-            <div>
-              <div class="contact-info-label">WhatsApp</div>
-              <a
-                :href="'https://wa.me/6281252205174?text=Halo%20saya%20tertarik%20dengan%20project%20anda'"
-                target="_blank"
-                class="contact-info-value contact-info-link"
-              >
-                {{ store.profile.whatsapp }}
-              </a>
-            </div>
+              </span>
+            </a>
           </li>
-          <li class="contact-info-item scroll-fade" data-delay="3">
-            <div class="contact-info-icon">
-              <img
-                v-if="store.contact?.instagram_img"
-                :src="store.contact.instagram_img"
-                class="hero-photo-img"
-                alt=""
-              />
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-              >
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-              </svg>
-            </div>
-            <div>
-              <div class="contact-info-label">Instagram</div>
-              <a
-                :href="store.contact?.instagram"
-                target="_blank"
-                class="contact-info-value contact-info-link"
-              >
-                {{
-                  store.contact?.instagram?.replace(
-                    "https://www.instagram.com/",
-                    "@",
-                  )
-                }}
-              </a>
-            </div>
-          </li>
-          <li class="contact-info-item scroll-fade" data-delay="4">
-            <div class="contact-info-icon">
-              <img
-                v-if="store.contact?.github_img"
-                :src="store.contact.github_img"
-                class="hero-photo-img"
-                alt=""
-              />
-
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-              >
-                <path
-                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+          <li
+            v-if="store.contact?.instagram_img"
+            class="scroll-fade"
+            data-delay="3"
+          >
+            <a
+              :href="store.contact?.instagram"
+              target="_blank"
+              rel="noreferrer"
+              class="contact-info-item"
+              aria-label="Instagram"
+              title="Instagram"
+            >
+              <span class="contact-info-icon">
+                <img
+                  :src="store.contact.instagram_img"
+                  class="contact-info-img"
+                  alt="Instagram"
                 />
-              </svg>
-            </div>
-            <div>
-              <div class="contact-info-label">GitHub</div>
-              <a
-                :href="store.profile.github"
-                target="_blank"
-                class="contact-info-value contact-info-link"
-              >
-                {{ store.profile.github.replace("https://github.com/", "@") }}
-              </a>
-            </div>
+              </span>
+            </a>
+          </li>
+          <li
+            v-if="store.contact?.github_img"
+            class="scroll-fade"
+            data-delay="4"
+          >
+            <a
+              :href="store.profile.github"
+              target="_blank"
+              rel="noreferrer"
+              class="contact-info-item"
+              aria-label="GitHub"
+              title="GitHub"
+            >
+              <span class="contact-info-icon">
+                <img
+                  :src="store.contact.github_img"
+                  class="contact-info-img"
+                  alt="GitHub"
+                />
+              </span>
+            </a>
           </li>
         </ul>
 
@@ -1290,38 +1396,38 @@ onUnmounted(() => {
         >
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label">Nama</label>
               <input
                 class="form-input"
                 type="text"
-                placeholder="John Doe"
+                placeholder="Nama"
+                aria-label="Nama"
                 v-model="form.name"
               />
             </div>
             <div class="form-group">
-              <label class="form-label">Email</label>
               <input
                 class="form-input"
                 type="email"
-                placeholder="john@email.com"
+                placeholder="Email"
+                aria-label="Email"
                 v-model="form.email"
               />
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label">Subjek</label>
             <input
               class="form-input"
               type="text"
-              placeholder="Kolaborasi / Freelance / Lainnya"
+              placeholder="Subjek"
+              aria-label="Subjek"
               v-model="form.subject"
             />
           </div>
           <div class="form-group">
-            <label class="form-label">Pesan</label>
             <textarea
               class="form-textarea"
-              placeholder="Ceritakan tentang project Anda..."
+              placeholder="Ceritakan singkat tentang project Anda..."
+              aria-label="Pesan"
               v-model="form.message"
             ></textarea>
           </div>

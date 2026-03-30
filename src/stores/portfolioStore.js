@@ -106,6 +106,8 @@ export const usePortfolioStore = defineStore("portfolio", {
       name: "Havin Neo Dimas Nugraha",
       role: "Fullstack Developer",
       location: "Surabaya, Indonesia",
+      university: "Universitas Teknologi Yogyakarta",
+      bio: "Informatics graduate from Universitas Teknologi Yogyakarta (GPA 3.60) with a passion for building applications and solving problems. Experienced in system analysis and data processing, with a structured mindset, adaptability, and a strong drive to keep learning and growing.",
       email: "havin.personal@gmail.com",
       whatsapp: "6281252205174",
       github: "https://github.com/Havinoia",
@@ -129,10 +131,10 @@ export const usePortfolioStore = defineStore("portfolio", {
         title: "PEMANFAATAN GEMINI AI SEBAGAI INOVASI PEMBELAJARAN INTERAKTIF",
         issuer: "Diklat.co",
         image: "/images/sertif-1.png", // Path gambar
-        link: "/documents/sertifikat_full.pdf", // Path download/lihat PDF
+        link: "/documents/sertif-1.pdf", // Path download/lihat PDF
         date: "2024",
         description:
-          "Deskripsi singkat tentang apa yang dipelajari dan dicapai dalam sertifikasi ini. Tuliskan skill yang diperoleh dan relevansinya.",
+          "Utilization of Gemini AI to create more interactive and innovative learning methods.",
       },
       {
         id: 2,
@@ -140,10 +142,10 @@ export const usePortfolioStore = defineStore("portfolio", {
           "Seminar Nasional Transformasi Pembelajaran Ekonomi di Era AI & Big Data",
         issuer: "e-Guru.id",
         image: "/images/sertif-2.png", // Path gambar
-        link: "/documents/sertifikat_full.pdf", // Path download/lihat PDF
+        link: "/documents/sertif-2.pdf", // Path download/lihat PDF
         date: "2025",
         description:
-          "Deskripsi singkat tentang apa yang dipelajari dan dicapai dalam sertifikasi ini. Tuliskan skill yang diperoleh dan relevansinya.",
+          "Utilization of AI and Big Data to enhance effectiveness and innovation in the economic learning process.",
       },
       {
         id: 3,
@@ -151,10 +153,10 @@ export const usePortfolioStore = defineStore("portfolio", {
           "Seminar Nasional Pentingnya Manajemen Arsip dalam Organisasi : Manfaat dan Tantangan Berbasis Teknologi",
         issuer: "e-Guru.id",
         image: "/images/sertif-3.png", // Path gambar
-        link: "/documents/sertifikat_full.pdf", // Path download/lihat PDF
+        link: "/documents/sertif-3.pdf", // Path download/lihat PDF
         date: "2025",
         description:
-          "Deskripsi singkat tentang apa yang dipelajari dan dicapai dalam sertifikasi ini. Tuliskan skill yang diperoleh dan relevansinya.",
+          "Understanding the importance of technology-based records management to improve the efficiency of organizational information management.",
       },
       // ...
     ],
