@@ -74,45 +74,89 @@ export const usePortfolioStore = defineStore("portfolio", {
         category: "Frontend",
         icon: "🖥️",
         items: [
-          "HTML",
-          "CSS",
-          "JavaScript",
-          "Tailwind CSS",
-          "React",
-          "Inertia.js",
+          { name: "Vue 3", img: "/images/vue.png" },
+          { name: "React", img: "/images/react.png" },
+          { name: "TypeScript", img: "/images/ts.png" },
+          { name: "Tailwind", img: "/images/tw.png" },
+          { name: "Vite", img: "/images/vite.png" },
         ],
       },
       {
         category: "Backend",
         icon: "⚙️",
-        items: ["Laravel", "PHP", "MySQL", "PostgreSQL", "SQLite"],
+        items: [
+          { name: "Laravel", img: "/images/laravel.png" },
+          { name: "PHP", img: "/images/php.png" },
+          { name: "MySQL", img: "/images/mysql.png" },
+          
+        ],
       },
       {
-        category: "Tools & Services",
-        icon: "🛠️",
-        items: ["Git", "Vite", "Midtrans", "Cloudinary", "Railway"],
+        category: "DevOps",
+        icon: "🗄️",
+        items: [
+          { name: "Docker", img: "/images/docker.png" },
+          { name: "Git", img: "/images/git.png" },
+          { name: "Linux", img: "/images/linux.png" },
+          { name: "Nginx", img: "/images/nginx.png" },
+        ],
       },
     ],
     profile: {
-      name: 'Havin Neo Dimas Nugraha',
-      role: 'Fullstack Developer',
-      location: 'Surabaya, Indonesia',
-      email: 'havin.personal@gmail.com',
-      whatsapp: 'wa.me/6281252205174',
-      github: 'https://github.com/Havinoia',
-      linkedin: 'https://linkedin.com/in/username',
+      name: "Havin Neo Dimas Nugraha",
+      role: "Fullstack Developer",
+      location: "Surabaya, Indonesia",
+      email: "havin.personal@gmail.com",
+      whatsapp: "6281252205174",
+      github: "https://github.com/Havinoia",
+      linkedin: "https://linkedin.com/in/username",
       available: true,
-      photo: '/images/havin.jpeg',
+      photo: "/images/havin.jpeg",
     },
     contact: {
-      email: 'havin.personal@gmail.com',
-      email_img: '/images/email_icon.png',
-      whatsapp: 'wa.me/6281252205174',
-      whatsapp_img: '/images/whatsapp_icon.png',
-      instagram: 'https://www.instagram.com/havinneo',
-      instagram_img: '/images/instagram_icon.png',
-      github: 'https://github.com/Havinoia',
-      github_img: '/images/github_icon.png'
-    }
+      email: "havin.personal@gmail.com",
+      email_img: "/images/email_icon.png",
+      whatsapp: "6281252205174",
+      whatsapp_img: "/images/whatsapp_icon.png",
+      instagram: "https://www.instagram.com/havinneo",
+      instagram_img: "/images/instagram_icon.png",
+      github: "https://github.com/Havinoia",
+      github_img: "/images/github_icon.png",
+    },
+    cert: [
+      {
+        id: 1,
+        title: "PEMANFAATAN GEMINI AI SEBAGAI INOVASI PEMBELAJARAN INTERAKTIF",
+        issuer: "Diklat.co",
+        image: "/images/sertif-1.png", // Path gambar
+        link: "/documents/sertifikat_full.pdf", // Path download/lihat PDF
+        date: "2024",
+        description:
+          "Deskripsi singkat tentang apa yang dipelajari dan dicapai dalam sertifikasi ini. Tuliskan skill yang diperoleh dan relevansinya.",
+      },
+      {
+        id: 2,
+        title:
+          "Seminar Nasional Transformasi Pembelajaran Ekonomi di Era AI & Big Data",
+        issuer: "e-Guru.id",
+        image: "/images/sertif-2.png", // Path gambar
+        link: "/documents/sertifikat_full.pdf", // Path download/lihat PDF
+        date: "2025",
+        description:
+          "Deskripsi singkat tentang apa yang dipelajari dan dicapai dalam sertifikasi ini. Tuliskan skill yang diperoleh dan relevansinya.",
+      },
+      {
+        id: 3,
+        title:
+          "Seminar Nasional Pentingnya Manajemen Arsip dalam Organisasi : Manfaat dan Tantangan Berbasis Teknologi",
+        issuer: "e-Guru.id",
+        image: "/images/sertif-3.png", // Path gambar
+        link: "/documents/sertifikat_full.pdf", // Path download/lihat PDF
+        date: "2025",
+        description:
+          "Deskripsi singkat tentang apa yang dipelajari dan dicapai dalam sertifikasi ini. Tuliskan skill yang diperoleh dan relevansinya.",
+      },
+      // ...
+    ],
   }),
 });
