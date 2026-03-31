@@ -43,7 +43,7 @@ onUnmounted(() => {
     
     <!-- Mobile-only header (Visible < 820px) -->
     <div class="nav-mobile-header">
-      <RouterLink to="/" class="nav-logo" @click="closeMenu">dev<span>.</span>porto</RouterLink>
+      <RouterLink to="/" class="nav-logo" @click="closeMenu">havin<span>.</span>dev</RouterLink>
       <button class="nav-hamburger" @click="toggleMenu" :class="{ 'is-active': isMenuOpen }" aria-label="Toggle menu">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
