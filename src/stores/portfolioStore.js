@@ -124,7 +124,7 @@ export const usePortfolioStore = defineStore("portfolio", {
     profile: {
       name: "Havin Neo Dimas Nugraha",
       role: "Fullstack Developer",
-      location: "Surabaya, Indonesia",
+      location: "Nganjuk, Indonesia",
       university: "Universitas Teknologi Yogyakarta",
       bio: "Informatics graduate from Universitas Teknologi Yogyakarta (GPA 3.60) with a passion for building applications and solving problems. Experienced in system analysis and data processing, with a structured mindset, adaptability, and a strong drive to keep learning and growing.",
       email: "havin.personal@gmail.com",
