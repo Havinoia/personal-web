@@ -57,7 +57,7 @@ onUnmounted(() => {
       <div class="nav-content" v-if="!isMobile || isMenuOpen">
         <!-- Logo bubble (Desktop only) -->
         <div class="nav-bubble nav-logo-bubble">
-          <RouterLink to="/" class="nav-logo">dev<span>.</span>porto</RouterLink>
+          <RouterLink to="/" class="nav-logo">havin<span>.</span>dev</RouterLink>
         </div>
 
         <!-- Links bubble -->
