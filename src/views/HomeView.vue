@@ -780,8 +780,8 @@ onUnmounted(() => {
             <div class="porto-card-glow"></div>
             <div class="porto-card-thumb">
               <img
-                v-if="project.image"
-                :src="project.image"
+                v-if="project.gallery?.length || project.image"
+                :src="project.gallery?.length ? project.gallery[0] : project.image"
                 :alt="project.title"
                 class="porto-card-img"
                 loading="lazy"

@@ -94,7 +94,7 @@ export const usePortfolioStore = defineStore("portfolio", {
         category: "Frontend",
         icon: "🖥️",
         items: [
-          { name: "Vue 3", img: "/images/vue.png", desc: "The Progressive JavaScript Framework for building user interfaces.", setupCode: "npm create vue@latest", docUrl: "https://vuejs.org/guide/quick-start.html" },
+          { name: "Vue", img: "/images/vue.png", desc: "The Progressive JavaScript Framework for building user interfaces.", setupCode: "npm create vue@latest", docUrl: "https://vuejs.org/guide/quick-start.html" },
           { name: "React", img: "/images/react.png", desc: "A JavaScript library for building user interfaces.", setupCode: "npm create vite@latest my-react-app --template react", docUrl: "https://react.dev/learn/start-a-new-react-project" },
           { name: "TypeScript", img: "/images/ts.png", desc: "Strongly typed programming language that builds on JavaScript.", setupCode: "npm install -g typescript\ntsc --init", docUrl: "https://www.typescriptlang.org/download" },
           { name: "Tailwind", img: "/images/tw.png", desc: "A utility-first CSS framework for rapid UI development.", setupCode: "npm install -D tailwindcss\nnpx tailwindcss init", docUrl: "https://tailwindcss.com/docs/installation" },
