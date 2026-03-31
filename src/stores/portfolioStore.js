@@ -8,32 +8,44 @@ export const usePortfolioStore = defineStore("portfolio", {
         title: "PrimeProperty",
         description:
           "A web-based property management application built with native PHP and MySQL. Features include admin authentication, full CRUD property management, search & filtering, pagination, and property status handling (Available/Sold).",
+        fullDescription:
+          "PrimeProperty is a comprehensive property management solution designed to streamline real estate operations. Developed with native PHP and MySQL, this platform offers a robust administrative panel for seamless property tracking. Key functionalities include complete CRUD operations for property listings, advanced search filters, and an intuitive UI to toggle property availability. The application prioritizes performance and ease of use, ensuring that agents and administrators can manage property data effectively without any steep learning curves.",
         tags: ["PHP Native", "MySQL", "HTML", "CSS"],
         demo: "https://primeproperty.infinityfreeapp.com/",
         github: "https://github.com/Havinoia/primeproperty-web.git",
         featured: true,
         image: "/images/porto-1.png",
+        gallery: ["/images/porto-1.png", "/images/porto-2.png", "/images/porto-3.png"],
         emoji: "🏠",
+        month: "January",
         year: "2026",
+        themes: ["Website", "Real Estate", "Management"],
       },
       {
         id: 2,
         title: "VinShop",
         description:
           "A full-featured e-commerce web application built with Laravel 12. It includes authentication, product management, shopping cart, checkout system, and Midtrans payment integration (QRIS, GoPay, Bank Transfer). Features admin dashboard, order management, and Cloudinary-based image storage.",
+        fullDescription:
+          "VinShop is a modern, full-featured e-commerce application crafted using Laravel 12. It provides an end-to-end shopping experience starting from user authentication to a customized cart and checkout process. To facilitate secure transactions, VinShop integrates directly with the Midtrans Payment Gateway, allowing various payment options like QRIS, GoPay, and Bank Transfers. Accompanied by an insightful admin dashboard and reliable Cloudinary-based image hosting, the platform demonstrates a scalable approach to building reliable online retail systems.",
         tags: ["Laravel 12", "MySQL", "Tailwind CSS", "Midtrans", "Cloudinary"],
         demo: "https://vinshop-production.up.railway.app/",
         github: "https://github.com/Havinoia/vinshop-web.git",
         featured: true,
         image: "/images/porto-2.png",
+        gallery: ["/images/porto-2.png", "/images/porto-3.png", "/images/porto-4.png"],
         emoji: "🛍️",
+        month: "February",
         year: "2026",
+        themes: ["E-Commerce", "Retail", "Web App"],
       },
       {
         id: 3,
         title: "HealthTic Monitor",
         description:
           "A real-time global health statistics desktop application built with NativePHP. Features include live data visualization, mini widget mode, system tray integration, always-on-top window, and lightweight SQLite database for standalone usage.",
+        fullDescription:
+          "HealthTic Monitor is a desktop utility application developed using NativePHP to keep track of critical global health statistical data in real-time. By utilizing a lightweight SQLite database, it functions effectively offline while syncing online when connected. Users can view insightful charts, dock the app to the system tray, or switch to a minimal 'always-on-top' widget mode to monitor essential metrics effortlessly while working on other tasks.",
         tags: [
           "NativePHP",
           "Laravel",
@@ -45,14 +57,19 @@ export const usePortfolioStore = defineStore("portfolio", {
         github: "https://github.com/Havinoia/healthtic-app.git",
         featured: true,
         image: "/images/porto-3.png",
+        gallery: ["/images/porto-3.png", "/images/porto-4.png", "/images/porto-1.png"],
         emoji: "🩺",
+        month: "March",
         year: "2026",
+        themes: ["Desktop App", "Health", "Analytics"],
       },
       {
         id: 4,
         title: "Nusantara Logistics",
         description:
           "A Transportation Management System (TMS) built with Laravel, React, and Inertia.js. Features include real-time fleet tracking with interactive maps, courier and trip management, automatic PDF document generation, and spatial data handling using PostgreSQL with PostGIS.",
+        fullDescription:
+          "Nusantara Logistics is a comprehensive Transportation Management System (TMS) engineered for modern logistics operations. Building on the synergy of Laravel, React, and Inertia.js, the system delivers an interface that feels as fast as an SPA with the robust backend capabilities of Laravel. The app integrates PostgreSQL with PostGIS alongside Leaflet.js to pinpoint real-time fleet positions. Key features also entail comprehensive trip management interfaces and automated PDF manifest creations.",
         tags: [
           "Laravel 12",
           "React",
@@ -65,8 +82,11 @@ export const usePortfolioStore = defineStore("portfolio", {
         github: "https://github.com/Havinoia/logistik-web.git",
         featured: true,
         image: "/images/porto-4.png",
+        gallery: ["/images/porto-4.png", "/images/porto-1.png", "/images/porto-2.png"],
         emoji: "🚛",
+        month: "April",
         year: "2026",
+        themes: ["Logistics", "Enterprise", "Web App"],
       },
     ],
     skills: [
@@ -74,31 +94,30 @@ export const usePortfolioStore = defineStore("portfolio", {
         category: "Frontend",
         icon: "🖥️",
         items: [
-          { name: "Vue 3", img: "/images/vue.png" },
-          { name: "React", img: "/images/react.png" },
-          { name: "TypeScript", img: "/images/ts.png" },
-          { name: "Tailwind", img: "/images/tw.png" },
-          { name: "Vite", img: "/images/vite.png" },
+          { name: "Vue 3", img: "/images/vue.png", desc: "The Progressive JavaScript Framework for building user interfaces.", setupCode: "npm create vue@latest", docUrl: "https://vuejs.org/guide/quick-start.html" },
+          { name: "React", img: "/images/react.png", desc: "A JavaScript library for building user interfaces.", setupCode: "npm create vite@latest my-react-app --template react", docUrl: "https://react.dev/learn/start-a-new-react-project" },
+          { name: "TypeScript", img: "/images/ts.png", desc: "Strongly typed programming language that builds on JavaScript.", setupCode: "npm install -g typescript\ntsc --init", docUrl: "https://www.typescriptlang.org/download" },
+          { name: "Tailwind", img: "/images/tw.png", desc: "A utility-first CSS framework for rapid UI development.", setupCode: "npm install -D tailwindcss\nnpx tailwindcss init", docUrl: "https://tailwindcss.com/docs/installation" },
+          { name: "Vite", img: "/images/vite.png", desc: "Next Generation Frontend Tooling.", setupCode: "npm create vite@latest", docUrl: "https://vitejs.dev/guide/" },
         ],
       },
       {
         category: "Backend",
         icon: "⚙️",
         items: [
-          { name: "Laravel", img: "/images/laravel.png" },
-          { name: "PHP", img: "/images/php.png" },
-          { name: "MySQL", img: "/images/mysql.png" },
-          
+          { name: "Laravel", img: "/images/laravel.png", desc: "The PHP Framework for Web Artisans.", setupCode: "composer create-project laravel/laravel example-app", docUrl: "https://laravel.com/docs/installation" },
+          { name: "PHP", img: "/images/php.png", desc: "A popular general-purpose scripting language that is especially suited to web development.", setupCode: "php -S localhost:8000", docUrl: "https://www.php.net/manual/en/install.php" },
+          { name: "MySQL", img: "/images/mysql.png", desc: "The world's most popular open source database.", setupCode: "mysql -u root -p", docUrl: "https://dev.mysql.com/doc/refman/8.0/en/installing.html" },
         ],
       },
       {
         category: "DevOps",
         icon: "🗄️",
         items: [
-          { name: "Docker", img: "/images/docker.png" },
-          { name: "Git", img: "/images/git.png" },
-          { name: "Linux", img: "/images/linux.png" },
-          { name: "Nginx", img: "/images/nginx.png" },
+          { name: "Docker", img: "/images/docker.png", desc: "Empowering App Development for Developers.", setupCode: "docker run -d -p 80:80 docker/getting-started", docUrl: "https://docs.docker.com/get-started/" },
+          { name: "Git", img: "/images/git.png", desc: "Free and open source distributed version control system.", setupCode: "git init\ngit add .\ngit commit -m \"Initial commit\"", docUrl: "https://git-scm.com/doc" },
+          { name: "Linux", img: "/images/linux.png", desc: "Family of open-source Unix-like operating systems based on the Linux kernel.", setupCode: "sudo apt update && sudo apt upgrade", docUrl: "https://www.linux.org/" },
+          { name: "Nginx", img: "/images/nginx.png", desc: "High Performance Load Balancer, Web Server, & Reverse Proxy.", setupCode: "sudo apt install nginx\nsudo systemctl start nginx", docUrl: "https://nginx.org/en/docs/beginners_guide.html" },
         ],
       },
     ],

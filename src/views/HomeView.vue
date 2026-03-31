@@ -1,9 +1,31 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
+import { useRouter } from "vue-router";
 import { usePortfolioStore } from "../stores/portfolioStore";
 import emailjs from "@emailjs/browser";
 
 const store = usePortfolioStore();
+const router = useRouter();
+
+const techModalVisible = ref(false);
+const techModalClosing = ref(false);
+const activeTech = ref(null);
+
+function openTechModal(tech) {
+  activeTech.value = tech;
+  techModalVisible.value = true;
+  techModalClosing.value = false;
+  document.body.style.overflow = "hidden";
+}
+
+function closeTechModal() {
+  techModalClosing.value = true;
+  setTimeout(() => {
+    techModalVisible.value = false;
+    activeTech.value = null;
+    document.body.style.overflow = "";
+  }, 260);
+}
 
 const aboutSection = ref(null);
 const aboutHeader = ref(null);
@@ -96,6 +118,9 @@ const normalizedSkills = computed(() =>
       id: `${category.category}-${item.name || item}-${categoryIndex}-${itemIndex}`,
       name: item.name || item,
       img: item.img || null,
+      desc: item.desc || null,
+      setupCode: item.setupCode || null,
+      docUrl: item.docUrl || null,
       cat: category.category,
     })),
   ),
@@ -489,8 +514,7 @@ function tryOpenProject(e) {
     isLoopMode.value
       ? snapToIndexLoop(idx)
       : snapToIndexNoLoop(idx % TOTAL.value);
-  if (proj.demo && proj.demo !== "#")
-    window.open(proj.demo, "_blank", "noopener,noreferrer");
+  if (proj.id) router.push({ name: 'project-detail', params: { id: proj.id } });
 }
 function startMomentum() {
   if (momentumId) cancelAnimationFrame(momentumId);
@@ -775,7 +799,7 @@ onUnmounted(() => {
               <div class="porto-card-title">{{ project.title }}</div>
               <div class="porto-card-tags">
                 <span
-                  v-for="tag in project.tags.slice(0, 2)"
+                  v-for="tag in project.tags.slice(0, 10)"
                   :key="tag"
                   class="porto-card-tag"
                   >{{ tag }}</span
@@ -810,11 +834,11 @@ onUnmounted(() => {
           <div class="hero-photo-aura hero-photo-aura-two"></div>
           <div class="hero-photo-pill hero-photo-pill-top">
             <span class="hero-photo-pill-label">Experience</span>
-            <strong>{{ store.profile.yearsExp || "2" }}+ Years</strong>
+            <strong>{{ store.profile.yearsExp || "3" }} Years</strong>
           </div>
           <div class="hero-photo-pill hero-photo-pill-bottom">
             <span class="hero-photo-pill-dot"></span>
-            {{ store.projects.length || "10" }}+ Projects shipped
+            {{ store.projects.length || "10" }} Projects shipped
           </div>
           <div class="hero-photo-frame">
             <div class="hero-photo-frame-inner">
@@ -884,7 +908,7 @@ onUnmounted(() => {
         </h2>
         <p class="section-sub scroll-fade" data-delay="2">
           {{ store.profile.role }} based in
-          {{ store.profile.location || "Indonesia" }}.
+          {{ store.profile.location || "Indonesia" }}
         </p>
           </div>
 
@@ -999,8 +1023,8 @@ onUnmounted(() => {
     <section class="skills-section" id="skills">
       <div class="section-header">
         <div class="section-label">Tech Stack</div>
-        <h2 class="section-title">Technologies I Work With</h2>
-        <p class="section-sub">Tools and technologies I use daily.</p>
+        <h2 class="section-title">Tools & Technologies</h2>
+        <p class="section-sub">My everyday development toolkit</p>
       </div>
 
       <div class="skills-filter">
@@ -1030,6 +1054,8 @@ onUnmounted(() => {
               v-for="(item, i) in displayedSkills"
               :key="item.id"
               class="skill-icon-box"
+              style="cursor: pointer;"
+              @click="openTechModal(item)"
               :style="{
                 '--delay': i * 0.04 + 's',
                 '--float-delay': i * 0.18 + 's',
@@ -1057,7 +1083,7 @@ onUnmounted(() => {
         <div class="section-label scroll-fade">Achievements</div>
         <h2 class="section-title scroll-fade" data-delay="1">Certifications</h2>
         <p class="section-sub scroll-fade" data-delay="2">
-          Certificates and achievements I have earned.
+          Certificates and achievements I have earned
         </p>
       </div>
 
@@ -1174,6 +1200,47 @@ onUnmounted(() => {
         </template>
       </div>
     </section>
+
+    <!-- ═══ TECH MODAL ═══ -->
+    <Teleport to="body">
+      <Transition name="modal-fade">
+        <div v-if="techModalVisible" class="tech-modal-overlay" :class="{ closing: techModalClosing }" @click.self="closeTechModal">
+          <div class="tech-modal" :class="{ closing: techModalClosing }">
+            <button class="tech-modal-close" @click="closeTechModal">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+            </button>
+            <div class="tech-modal-header">
+              <div class="tech-modal-icon-wrap">
+                <img v-if="activeTech?.img" :src="activeTech.img" class="tech-modal-icon" alt=""/>
+                <span v-else class="tech-modal-emoji">⚡</span>
+              </div>
+              <div class="tech-modal-header-text">
+                <h3 class="tech-modal-title">{{ activeTech?.name }}</h3>
+                <p class="tech-modal-desc">{{ activeTech?.desc || 'Pelajari cara instalasi teknologi ini dari dokumentasi resminya.' }}</p>
+              </div>
+            </div>
+            
+            <div class="tech-modal-terminal" v-if="activeTech?.setupCode">
+              <div class="tech-terminal-top">
+                <div class="tech-terminal-dots"><span class="t-red"></span><span class="t-yellow"></span><span class="t-green"></span></div>
+                <span class="tech-terminal-label">Terminal</span>
+              </div>
+              <pre class="tech-terminal-code"><code><span class="t-command-win">C:\Users\example&gt; <span class="t-cmd-text">{{ activeTech.setupCode }}</span></span>
+<span class="t-command-lin"><span class="t-usr">example@linux</span>:<span class="t-dir">~</span>$ <span class="t-cmd-text">{{ activeTech.setupCode }}</span></span></code></pre>
+            </div>
+
+            <div class="tech-modal-actions">
+              <a v-if="activeTech?.docUrl" :href="activeTech.docUrl" target="_blank" class="tech-btn-docs">
+                Official Documentation
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
 
     <!-- ═══ CERT MODAL ═══ -->
     <Teleport to="body">
@@ -1297,10 +1364,10 @@ onUnmounted(() => {
       <div class="section-header">
         <div class="section-label scroll-fade">Contact</div>
         <h2 class="section-title scroll-fade" data-delay="1">
-          Let's build something great together
+          Have an idea? Let’s make it real
         </h2>
         <p class="section-sub scroll-fade" data-delay="2">
-          Have an interesting project? I'm always open to discussion.
+          Have an interesting project? I'm always open to discussion
         </p>
       </div>
       <div class="contact-grid">
@@ -1399,7 +1466,7 @@ onUnmounted(() => {
               <input
                 class="form-input"
                 type="text"
-                placeholder="Nama"
+                placeholder="Name"
                 aria-label="Nama"
                 v-model="form.name"
               />
@@ -1418,7 +1485,7 @@ onUnmounted(() => {
             <input
               class="form-input"
               type="text"
-              placeholder="Subjek"
+              placeholder="Subject"
               aria-label="Subjek"
               v-model="form.subject"
             />
@@ -1426,28 +1493,28 @@ onUnmounted(() => {
           <div class="form-group">
             <textarea
               class="form-textarea"
-              placeholder="Ceritakan singkat tentang project Anda..."
+              placeholder="Tell me about your project"
               aria-label="Pesan"
               v-model="form.message"
             ></textarea>
           </div>
           <div v-if="formStatus === 'success'" class="form-status success">
-            ✓ Pesan berhasil dikirim! Saya akan membalas segera.
+            ✓ Message sent successfully! I will get back to you soon.
           </div>
           <div v-else-if="formStatus === 'error'" class="form-status error">
-            ✕ Gagal mengirim. Pastikan semua field terisi atau coba lagi.
+            ✕ Failed to send. Please make sure all fields are filled or try again.
           </div>
           <button
             type="submit"
             class="btn-submit"
             :disabled="formStatus === 'sending'"
           >
-            <span v-if="formStatus === 'sending'">Mengirim...</span>
+            <span v-if="formStatus === 'sending'">Sending...</span>
             <span
               v-else
               style="display: inline-flex; align-items: center; gap: 8px"
             >
-              Kirim Pesan
+              Send Message
               <svg
                 width="15"
                 height="15"
@@ -1465,19 +1532,6 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <!-- ═══ FOOTER ═══ -->
-    <footer class="footer">
-      <div class="footer-text">
-        © 2026 {{ store.profile.name }} — Dibuat dengan Vue 3
-      </div>
-      <div class="footer-socials">
-        <a :href="store.profile.github" target="_blank" class="social-link"
-          >GH</a
-        >
-        <a :href="store.contact?.instagram" target="_blank" class="social-link"
-          >IG</a
-        >
-      </div>
-    </footer>
+
   </main>
 </template>

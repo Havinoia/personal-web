@@ -10,13 +10,20 @@ const routes = [
   { path: '/about',     name: 'about',     component: AboutView },
   { path: '/portfolio', name: 'portfolio', component: PortfolioView },
   { path: '/contact',   name: 'contact',   component: ContactView },
+  { path: '/project/:id', name: 'project-detail', component: () => import('../views/project/ProjectDetailView.vue') },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior() {
-    return { top: 0 }
+  scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return { el: to.hash, behavior: 'smooth' }
+    }
+    if (savedPosition) {
+      return savedPosition
+    }
+    return { top: 0, behavior: 'smooth' }
   }
 })
 

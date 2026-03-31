@@ -27,11 +27,11 @@ onUnmounted(() => {
 
     <!-- Links bubble -->
     <ul class="nav-bubble nav-links">
-      <li><RouterLink to="/">Home</RouterLink></li>
-      <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#certifications">Achievements</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><RouterLink :to="{ path: '/' }">Home</RouterLink></li>
+      <li><RouterLink :to="{ path: '/', hash: '#portfolio' }">Portfolio</RouterLink></li>
+      <li><RouterLink :to="{ path: '/', hash: '#skills' }">Tech Stack</RouterLink></li>
+      <li><RouterLink :to="{ path: '/', hash: '#certifications' }">Achievements</RouterLink></li>
+      <li><RouterLink :to="{ path: '/', hash: '#contact' }">Contact</RouterLink></li>
     </ul>
 
     <!-- Actions bubble -->
