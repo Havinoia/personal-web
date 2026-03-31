@@ -402,9 +402,9 @@ nav.is-scrolled .nav-bubble:hover {
   touch-action:      pan-y pinch-zoom;
   -webkit-overflow-scrolling: touch;
   scrollbar-width:   none;
-  padding:           28px var(--porto-edge-space) 56px;
+  padding:           28px 0 56px;
   flex:              1;
-  scroll-padding-inline: var(--porto-edge-space);
+  scroll-padding-inline: 0;
 }
 .porto-scroll::-webkit-scrollbar { display: none; }
 
@@ -2305,8 +2305,8 @@ section { position: relative; z-index: 1; padding: 100px 64px; }
   .porto-scroll {
     --porto-card-mobile: min(82vw, 280px);
     --porto-edge-space: max(16px, calc(50% - min(41vw, 140px)));
-    padding: 18px var(--porto-edge-space) 28px;
-    scroll-padding-inline: var(--porto-edge-space);
+    padding: 18px 0 28px;
+    scroll-padding-inline: 0;
   }
   .porto-card {
     width: var(--porto-card-mobile);

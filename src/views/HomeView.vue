@@ -265,15 +265,19 @@ const MIN_REPEAT = 10;
 const MIN_CARDS = 20;
 
 function getCardW() {
-  const card = scrollContainer.value?.querySelector(".porto-card");
-  return card ? card.offsetWidth : 320;
+  const el = scrollContainer.value;
+  if (!el) return 350;
+  const card = el.querySelector(".porto-card");
+  if (card) return card.offsetWidth;
+  // Fallback ke nilai CSS jika card belum render
+  return window.innerWidth <= 480 ? Math.min(window.innerWidth * 0.82, 280) : 350;
 }
 function getGap() {
   const el = scrollContainer.value;
-  if (!el) return 20;
+  if (!el) return 22;
   const styles = window.getComputedStyle(el);
-  const gap = parseFloat(styles.columnGap || styles.gap || "20");
-  return Number.isFinite(gap) ? gap : 20;
+  const gap = parseFloat(styles.columnGap || styles.gap || "22");
+  return Number.isFinite(gap) ? gap : 22;
 }
 function getStride() {
   return getCardW() + getGap();
@@ -637,14 +641,13 @@ function onTouchCancel() {
   tVel = 0;
 }
 
-let resizeTimer = null;
+let resizeObserver = null;
 function onResize() {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
-    if (!isLoopMode.value) {
-      recalcPadding();
-      snapToIndexNoLoop(activeIndex.value);
-    } else snapNearestLoop();
+    recalcPadding();
+    if (isLoopMode.value) snapNearestLoop();
+    else snapToIndexNoLoop(activeIndex.value);
     requestAboutProgressUpdate();
   }, 150);
 }
@@ -653,22 +656,27 @@ onMounted(() => {
   const el = scrollContainer.value;
   syncDisplayedSkills();
 
-  // 1. Inisialisasi Posisi Project Scroll (Loop vs No-Loop)
   if (el) {
-    if (isLoopMode.value) {
-      const totalRepeats = loopedProjects.value.length / TOTAL.value;
-      const startIdx = Math.floor(totalRepeats / 2) * TOTAL.value;
-      el.scrollLeft = getTargetForIndex(startIdx);
-      // Double rAF memastikan DOM sudah ter-render sempurna sebelum snapping
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => snapNearestLoop()),
-      );
-    } else {
+    // 1. ResizeObserver untuk menjaga posisi tengah tetap stabil
+    resizeObserver = new ResizeObserver(() => {
       recalcPadding();
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => snapToIndexNoLoop(0)),
-      );
-    }
+      // Hanya snap otomatis jika tidak sedang ditarik/drag
+      if (!isDown && !tDrag) snapNearest();
+    });
+    resizeObserver.observe(el);
+
+    // 2. Inisialisasi Posisi (Gunakan timeout kecil agar layout settle)
+    setTimeout(() => {
+      recalcPadding();
+      if (isLoopMode.value) {
+        const totalRepeats = loopedProjects.value.length / TOTAL.value;
+        const startIdx = Math.floor(totalRepeats / 2) * TOTAL.value;
+        el.scrollLeft = getTargetForIndex(startIdx);
+        requestAnimationFrame(() => snapNearestLoop());
+      } else {
+        snapToIndexNoLoop(0);
+      }
+    }, 100);
   }
 
   // 2. Event Listeners Global
@@ -709,6 +717,7 @@ onUnmounted(() => {
   window.removeEventListener("resize", onResize);
   window.removeEventListener("keydown", onModalKeydown);
   window.removeEventListener("scroll", requestAboutProgressUpdate);
+  if (resizeObserver) resizeObserver.disconnect();
 
   // 4. Matikan Semua Observer (Mencegah Memory Leak)
   [observerIn, observerOut].forEach((obs) => {
@@ -754,14 +763,11 @@ onUnmounted(() => {
         <div
           class="porto-scroll"
           ref="scrollContainer"
-          :style="
-            !isLoopMode
-              ? {
-                  paddingLeft: paddingInline + 'px',
-                  paddingRight: paddingInline + 'px',
-                }
-              : {}
-          "
+          :style="{
+            paddingLeft: paddingInline + 'px',
+            paddingRight: paddingInline + 'px',
+            scrollPaddingInline: paddingInline + 'px',
+          }"
           @mousedown="onMouseDown"
           @mouseup="onMouseUp"
           @mouseleave="onMouseLeave"
