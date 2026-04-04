@@ -88,6 +88,31 @@ export const usePortfolioStore = defineStore("portfolio", {
         year: "2026",
         themes: ["Logistics", "Enterprise", "Web App"],
       },
+      {
+        id: 5,
+        title: "TypeRush",
+        description:
+          "A modern speed-typing platform designed for a seamless, accurate, and challenging typing experience. Features real-time WPM and accuracy tracking.",
+        fullDescription:
+          "TypeRush is a high-performance typing practice platform built with Laravel, Vue 3, and Inertia.js. It features a real-time typing engine that calculates Words Per Minute (WPM) and accuracy as you type. The application boasts a premium, minimalist UI/UX crafted with Tailwind CSS, a comprehensive authentication system to track user progress, and a responsive design that ensures a smooth experience across all devices.",
+        tags: [
+          "Laravel 11",
+          "Vue 3",
+          "Inertia.js",
+          "Tailwind CSS",
+          "Vite",
+          "SQLite",
+        ],
+        demo: "https://github.com/Havinoia/typerush.git",
+        github: "https://github.com/Havinoia/typerush.git",
+        featured: true,
+        image: "/images/mockup-porto5.png",
+        gallery: ["/images/doc5-1.png", "/images/doc5-2.png", "/images/doc5-3.png", "/images/doc5-4.png"],
+        emoji: "🏎️",
+        month: "April",
+        year: "2026",
+        themes: ["Typing Tool", "Education", "Web App"],
+      },
     ],
     skills: [
       {

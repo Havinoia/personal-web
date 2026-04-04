@@ -7,9 +7,30 @@ import emailjs from "@emailjs/browser";
 const store = usePortfolioStore();
 const router = useRouter();
 
+// Modals & Active State
 const techModalVisible = ref(false);
 const techModalClosing = ref(false);
 const activeTech = ref(null);
+const certModal = ref(null);
+const certModalVisible = ref(false);
+const certModalClosing = ref(false);
+
+// Observers & Frames
+let observerIn = null;
+let observerOut = null;
+let resizeObserver = null;
+let aboutScrollFrame = null;
+
+// Timers
+let resizeTimer = null;
+let typeTimer = null;
+let cursorTimer = null;
+let skillsFilterTimer = null;
+
+const aboutSection = ref(null);
+const aboutHeader = ref(null);
+const aboutStage = ref(null);
+const aboutProgress = ref(0);
 
 function openTechModal(tech) {
   activeTech.value = tech;
@@ -27,17 +48,12 @@ function closeTechModal() {
   }, 260);
 }
 
-const aboutSection = ref(null);
-const aboutHeader = ref(null);
-const aboutStage = ref(null);
-const aboutProgress = ref(0);
 const aboutParagraph = computed(
   () =>
     store.profile.bio ||
     "Bachelor's degree graduate in Informatics from Universitas Teknologi Yogyakarta with a GPA of 3.60. Possesses skills in system analysis, application development, and data processing. Accustomed to thinking systematically, solving problems in a structured manner, and maintaining high accuracy in managing information. Demonstrates strong adaptability, discipline, and the ability to work both independently and collaboratively within a team. Committed to continuous learning and developing both technical and non-technical competencies to contribute effectively in a professional work environment.",
 );
 const aboutWords = computed(() => aboutParagraph.value.trim().split(/\s+/));
-let aboutScrollFrame = null;
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
@@ -103,14 +119,11 @@ function getAboutParagraphStyle() {
   };
 }
 
-// ════════════════════════════════════════
 // TECH STACK — Filter & Animate
-// ════════════════════════════════════════
 const activeFilter = ref("All");
 const displayedSkills = ref([]);
 const isFilteringSkills = ref(false);
 const skillsViewKey = ref(0);
-let skillsFilterTimer = null;
 
 const normalizedSkills = computed(() =>
   store.skills.flatMap((category, categoryIndex) =>
@@ -160,9 +173,6 @@ const setFilter = (cat) => {
 // ════════════════════════════════════════
 // CERT MODAL
 // ════════════════════════════════════════
-const certModal = ref(null);
-const certModalVisible = ref(false);
-const certModalClosing = ref(false);
 
 function openCert(cert) {
   certModal.value = cert;
@@ -186,8 +196,6 @@ function onModalKeydown(e) {
 // ════════════════════════════════════════
 // SCROLL FADE
 // ════════════════════════════════════════
-let observerIn = null;
-let observerOut = null;
 
 function initScrollFade() {
   const els = document.querySelectorAll(".scroll-fade");
@@ -308,8 +316,6 @@ const phrases = [
 let phraseIdx = 0,
   charIdx = 0,
   isDeleting = false;
-let typeTimer = null,
-  cursorTimer = null;
 
 function typewrite() {
   const current = phrases[phraseIdx];
@@ -641,7 +647,6 @@ function onTouchCancel() {
   tVel = 0;
 }
 
-let resizeObserver = null;
 function onResize() {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
