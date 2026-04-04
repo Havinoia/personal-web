@@ -82,7 +82,7 @@
 .porto-card-tags, .porto-card-tag, .btn-primary, .btn-secondary,
 .nav-cta, .skill-tag, .social-link, .porto-arrow,
 .contact-info-item, .skill-category, .about-chip, .cert-card,
-.nav-links a, .theme-toggle, .social-link {
+.nav-links a, .theme-toggle {
   transition:
     background-color 0.3s var(--ease),
     border-color     0.3s var(--ease),
@@ -132,6 +132,17 @@ section[id],
 .scroll-fade[data-delay="5"] { transition-delay:0.25s }
 .scroll-fade[data-delay="6"] { transition-delay:0.30s }
 .scroll-fade.fade-out[data-delay] { transition-delay:0s }
+
+/* ── UTILITY TRANSITIONS ── */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 
 /* ══════════════════════════════
    NAVIGATION — Reversed Bubble
@@ -853,7 +864,7 @@ nav.is-scrolled .nav-bubble:hover {
   padding:         13px 26px;
   background:      var(--grad-main);
   color:           #000;
-  font-family:     var(--font); font-weight: 700; font-size: 13px;
+  font-weight: 700; font-size: 13px;
   border-radius:   100px; text-decoration: none;
   box-shadow:      0 4px 20px var(--neon-glow);
 }
@@ -863,7 +874,7 @@ nav.is-scrolled .nav-bubble:hover {
   display:         inline-flex; align-items: center; gap: 9px;
   padding:         13px 26px;
   background:      transparent; color: var(--text2);
-  font-family:     var(--font); font-weight: 500; font-size: 13px;
+  font-weight: 500; font-size: 13px;
   border:          1px solid var(--border2); border-radius: 100px; text-decoration: none;
 }
 .btn-secondary:hover { color: var(--text); border-color: var(--text3); background: var(--bg3); }
@@ -1028,7 +1039,7 @@ nav.is-scrolled .nav-bubble:hover {
     0 30px 80px rgba(0, 0, 0, 0.32);
 }
 .about-word-paragraph {
-  margin: 0;
+
   font-size: clamp(25px, 3.7vw, 50px);
   line-height: 1.36;
   letter-spacing: -0.038em;
@@ -1124,7 +1135,7 @@ section { position: relative; z-index: 1; padding: 100px 64px; }
   padding: 7px 20px;
   background: var(--card); border: 1px solid var(--border);
   border-radius: 100px; color: var(--text2);
-  font-family: var(--font); font-size: 12px; font-weight: 500;
+  font-size: 12px; font-weight: 500;
   cursor: pointer; transition: all 0.2s var(--ease);
 }
 .skills-filter-btn:hover { border-color: var(--border2); color: var(--accent3); background: var(--card2); }
@@ -1653,7 +1664,7 @@ section { position: relative; z-index: 1; padding: 100px 64px; }
 .btn-submit {
   display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px;
   background: var(--a-grad); color: #04110a;
-  font-family: var(--font); font-weight: 600; font-size: 13px;
+  font-weight: 600; font-size: 13px;
   border: none; border-radius: 100px; cursor: pointer;
   transition: all 0.22s var(--ease); align-self: flex-start;
   box-shadow: 0 10px 26px rgba(125, 255, 155, 0.24);
@@ -1689,15 +1700,7 @@ section { position: relative; z-index: 1; padding: 100px 64px; }
   background: linear-gradient(90deg, transparent, rgba(125, 255, 155, 0.6) 50%, transparent);
 }
 .footer-text { font-size: 12px; color: var(--text3); }
-.footer-socials { display: flex; gap: 8px; }
-.social-link {
-  width: 34px; height: 34px;
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--r); display: flex; align-items: center; justify-content: center;
-  text-decoration: none; font-size: 10px; font-weight: 800;
-  color: var(--text3); transition: all 0.2s var(--ease);
-}
-.social-link:hover { border-color: var(--border2); color: var(--accent3); background: var(--a-dim); transform: translateY(-2px); box-shadow: 0 0 14px rgba(125, 255, 155, 0.16); }
+
  
 /* ════════════════════════════════════════
    ANIMATIONS
@@ -2085,10 +2088,7 @@ section { position: relative; z-index: 1; padding: 100px 64px; }
     gap: 16px;
     text-align: center;
   }
-  .footer-socials {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+
   .cert-card { width: 100%; min-width: unset; }
   .cert-modal-overlay { padding: 16px; }
   .cert-modal { max-height: min(88vh, 760px); }

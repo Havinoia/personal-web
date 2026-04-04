@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch, onMounted, ref } from 'vue';
+import { computed, watch, onMounted, ref, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { usePortfolioStore } from '../../stores/portfolioStore';
 
@@ -46,10 +46,11 @@ onMounted(() => {
   }
 });
 
-import { onUnmounted } from 'vue';
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown);
 });
+
+
 </script>
 
 <template>
@@ -175,8 +176,6 @@ onUnmounted(() => {
 .project-detail {
   background: #050a07; /* purely dark for the base */
   min-height: 100vh;
-  color: var(--text);
-  font-family: var(--font), sans-serif;
 }
 
 .pd-hero {
@@ -266,7 +265,6 @@ onUnmounted(() => {
   line-height: 1.1;
   letter-spacing: -2px;
   color: #ffffff;
-  margin: 0;
   text-shadow: 0 20px 40px rgba(0,0,0,0.5);
 }
 
@@ -552,17 +550,6 @@ onUnmounted(() => {
 }
 
 
-/* TRANSITIONS */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
 /* FOOTER */
 .pd-footer {
   border-top: 1px solid rgba(255,255,255,0.06);
@@ -602,7 +589,6 @@ onUnmounted(() => {
 .pd-next-title {
   font-size: clamp(36px, 6vw, 68px);
   color: #ffffff;
-  margin: 0;
   font-weight: 800;
   letter-spacing: -1.5px;
   line-height: 1.1;

@@ -8,10 +8,6 @@ const store = usePortfolioStore();
     <div class="footer-text">
       © 2026 {{ store.profile.name }} — Built with Vue
     </div>
-    <div class="footer-socials">
-      <a :href="store.profile.github" target="_blank" class="social-link">GH</a>
-      <a :href="store.contact?.instagram" target="_blank" class="social-link">IG</a>
-    </div>
   </footer>
 </template>
 
