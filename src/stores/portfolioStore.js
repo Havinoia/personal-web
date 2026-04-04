@@ -7,9 +7,9 @@ export const usePortfolioStore = defineStore("portfolio", {
         id: 1,
         title: "PrimeProperty",
         description:
-          "A web-based property management application built with native PHP and MySQL. Features include admin authentication, full CRUD property management, search & filtering, pagination, and property status handling (Available/Sold).",
+          "A web-based property management application built with native PHP and MySQL. Features an admin panel for complete CRUD operations, property status management (Available/Sold), and secure session-based authentication.",
         fullDescription:
-          "PrimeProperty is a comprehensive property management solution designed to streamline real estate operations. Developed with native PHP and MySQL, this platform offers a robust administrative panel for seamless property tracking. Key functionalities include complete CRUD operations for property listings, advanced search filters, and an intuitive UI to toggle property availability. The application prioritizes performance and ease of use, ensuring that agents and administrators can manage property data effectively without any steep learning curves.",
+          "PrimeProperty is a streamlined Property Management System designed to simplify real estate operations. Developed as a foundational backend project, it features a robust administrative dashboard where managers can perform full CRUD (Create, Read, Update, Delete) operations on property listings. Key functionalities include dynamic property status toggling (Available/Sold) with visual indicators, advanced search and filtering, and pagination. The application is built on a Native PHP architecture with MySQL, prioritizing performance and fundamental web security through session-based authentication.",
         tags: ["PHP Native", "MySQL", "HTML", "CSS"],
         demo: "https://primeproperty.infinityfreeapp.com/",
         github: "https://github.com/Havinoia/primeproperty-web.git",
@@ -25,9 +25,9 @@ export const usePortfolioStore = defineStore("portfolio", {
         id: 2,
         title: "VinShop",
         description:
-          "A full-featured e-commerce web application built with Laravel 12. It includes authentication, product management, shopping cart, checkout system, and Midtrans payment integration (QRIS, GoPay, Bank Transfer). Features admin dashboard, order management, and Cloudinary-based image storage.",
+          "A modern e-commerce platform built with Laravel 12 and integrated with Midtrans for secure payments. Includes customer shopping workflows, an admin dashboard for product management, and persistent Cloudinary image storage.",
         fullDescription:
-          "VinShop is a modern, full-featured e-commerce application crafted using Laravel 12. It provides an end-to-end shopping experience starting from user authentication to a customized cart and checkout process. To facilitate secure transactions, VinShop integrates directly with the Midtrans Payment Gateway, allowing various payment options like QRIS, GoPay, and Bank Transfers. Accompanied by an insightful admin dashboard and reliable Cloudinary-based image hosting, the platform demonstrates a scalable approach to building reliable online retail systems.",
+          "VinShop is a high-performance e-commerce solution engineered with Laravel 12 and Tailwind CSS. It provides an end-to-end shopping experience, featuring a secure customer journey from registration to checkout. A standout feature is the integration of the Midtrans Payment Gateway, supporting various methods like QRIS, GoPay, and Bank Transfers in a sandbox environment. The platform includes a powerful administrative dashboard for managing orders, categories, and products with persistent image hosting via Cloudinary. This ensures that media assets remain secure and accessible even during frequent deployments.",
         tags: ["Laravel 12", "MySQL", "Tailwind CSS", "Midtrans", "Cloudinary"],
         demo: "https://vinshop-production.up.railway.app/",
         github: "https://github.com/Havinoia/vinshop-web.git",
@@ -43,9 +43,9 @@ export const usePortfolioStore = defineStore("portfolio", {
         id: 3,
         title: "HealthTic Monitor",
         description:
-          "A real-time global health statistics desktop application built with NativePHP. Features include live data visualization, mini widget mode, system tray integration, always-on-top window, and lightweight SQLite database for standalone usage.",
+          "A real-time global health statistics desktop application built with NativePHP. It features live data visualizations from a taskbar-integrated interface, including a mini-widget mode and \"Always on Top\" functionality.",
         fullDescription:
-          "HealthTic Monitor is a desktop utility application developed using NativePHP to keep track of critical global health statistical data in real-time. By utilizing a lightweight SQLite database, it functions effectively offline while syncing online when connected. Users can view insightful charts, dock the app to the system tray, or switch to a minimal 'always-on-top' widget mode to monitor essential metrics effortlessly while working on other tasks.",
+          "HealthTic Monitor is an innovative desktop utility that transforms complex global health data into intuitive, real-time visualizations. Built using NativePHP, it functions as a standalone application that sits in the system tray, allowing users to monitor critical metrics like diabetes and smoking rates without opening a browser. The app features a versatile UI with a \"Mini Mode\" for space-saving monitoring and an \"Always on Top\" toggle. By leveraging a lightweight SQLite database, HealthTic ensures fast performance and easy distribution as a portable Windows installer (.exe).",
         tags: [
           "NativePHP",
           "Laravel",
@@ -67,9 +67,9 @@ export const usePortfolioStore = defineStore("portfolio", {
         id: 4,
         title: "Nusantara Logistics",
         description:
-          "A Transportation Management System (TMS) built with Laravel, React, and Inertia.js. Features include real-time fleet tracking with interactive maps, courier and trip management, automatic PDF document generation, and spatial data handling using PostgreSQL with PostGIS.",
+          "A Transportation Management System (TMS) featuring a high-performance \"Control Tower\" for real-time fleet tracking. Built with Laravel, React, and Inertia.js, utilizing PostGIS for advanced spatial data handling.",
         fullDescription:
-          "Nusantara Logistics is a comprehensive Transportation Management System (TMS) engineered for modern logistics operations. Building on the synergy of Laravel, React, and Inertia.js, the system delivers an interface that feels as fast as an SPA with the robust backend capabilities of Laravel. The app integrates PostgreSQL with PostGIS alongside Leaflet.js to pinpoint real-time fleet positions. Key features also entail comprehensive trip management interfaces and automated PDF manifest creations.",
+          "Nusantara Logistics is a comprehensive TMS designed for real-time operational efficiency in the logistics sector. Centered around a sophisticated \"Control Tower,\" it uses Leaflet.js and PostGIS to provide interactive, live mapping of courier positions, warehouses, and delivery destinations. The platform automates trip management, converting complex logistical data into professional PDF manifests (Surat Jalan) instantly. Built with the Laravel and Inertia.js bridge, it offers a seamless Single Page Application (SPA) experience while handling complex spatial queries and fleet statuses (Available/Busy/Offline) across multiple warehouses.",
         tags: [
           "Laravel 12",
           "React",
@@ -92,9 +92,9 @@ export const usePortfolioStore = defineStore("portfolio", {
         id: 5,
         title: "JobHunt",
         description:
-          "A comprehensive job application tracker designed to streamline the career search process. Includes a Chrome extension for easy job saving and a feature-rich Laravel dashboard for managing status and resumes.",
+          "An AI-powered career assistant built as a Chrome extension and Laravel dashboard. It uses Google Gemini AI to analyze CVs, provide LinkedIn skill matching, and identify skill gaps for job seekers.",
         fullDescription:
-          "JobHunt transforms the chaotic job hunting process into a structured workflow. It offers a Chrome Extension that allows users to instantly save job listings from any website, and a central Laravel-powered dashboard to track application stages, store specific resumes, and manage interview schedules. Built with a focus on ease of use and professional career management.",
+          "JobHunt is a premium career intelligence platform that leverages the power of Google Gemini AI to revolutionize the job searching process. It consists of a sophisticated Chrome extension that integrates directly with LinkedIn to provide real-time Smart Match scores and detailed skill gap analyses. Users can upload their PDF resumes to a central Laravel dashboard, where the AI extracts core competencies and provides deep-domain audits of their professional profile. The system includes a multi-tiered plan (Freemium vs. Premium), secure payment integration via Pakasir, and extensive testing via PHPUnit to ensure high reliability in AI-driven career insights.",
         tags: ["Laravel 11", "Chrome Extension", "Tailwind CSS", "PostgreSQL", "Manifest v3"],
         demo: "https://github.com/Havinoia/jobhunt.git",
         github: "https://github.com/Havinoia/jobhunt.git",
@@ -110,9 +110,9 @@ export const usePortfolioStore = defineStore("portfolio", {
         id: 6,
         title: "TypeRush",
         description:
-          "A modern speed-typing platform designed for a seamless, accurate, and challenging typing experience. Features real-time WPM and accuracy tracking.",
+          "A modern speed-typing platform featuring a real-time typing engine for WPM and accuracy tracking. Developed with Laravel and Vue 3 for a premium, high-performance practice experience.",
         fullDescription:
-          "TypeRush is a high-performance typing practice platform built with Laravel, Vue 3, and Inertia.js. It features a real-time typing engine that calculates Words Per Minute (WPM) and accuracy as you type. The application boasts a premium, minimalist UI/UX crafted with Tailwind CSS, a comprehensive authentication system to track user progress, and a responsive design that ensures a smooth experience across all devices.",
+          "TypeRush is a dedicated practice platform designed for enthusiasts looking to master their typing speed and accuracy. It features a custom-built, real-time typing engine that provides instant feedback on Words Per Minute (WPM) and precision. The application boasts a minimalist yet premium UI/UX crafted with Tailwind CSS and Vue 3, powered by a robust Laravel backend via Inertia.js. With a comprehensive authentication system to track personal progress and persistent results storage, TypeRush offers a seamless, SPA-like experience that is fully responsive across all desktop and mobile devices.",
         tags: [
           "Laravel 11",
           "Vue 3",
