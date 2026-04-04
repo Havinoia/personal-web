@@ -48,11 +48,7 @@ function closeTechModal() {
   }, 260);
 }
 
-const aboutParagraph = computed(
-  () =>
-    store.profile.bio ||
-    "Bachelor's degree graduate in Informatics from Universitas Teknologi Yogyakarta with a GPA of 3.60. Possesses skills in system analysis, application development, and data processing. Accustomed to thinking systematically, solving problems in a structured manner, and maintaining high accuracy in managing information. Demonstrates strong adaptability, discipline, and the ability to work both independently and collaboratively within a team. Committed to continuous learning and developing both technical and non-technical competencies to contribute effectively in a professional work environment.",
-);
+const aboutParagraph = computed(() => store.profile.bio);
 const aboutWords = computed(() => aboutParagraph.value.trim().split(/\s+/));
 
 function clamp(value, min, max) {

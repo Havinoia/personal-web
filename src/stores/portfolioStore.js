@@ -184,7 +184,7 @@ export const usePortfolioStore = defineStore("portfolio", {
       role: "Fullstack Developer",
       location: "Nganjuk, Indonesia",
       university: "Universitas Teknologi Yogyakarta",
-      bio: "Informatics graduate from Universitas Teknologi Yogyakarta (GPA 3.60) with a passion for building applications and solving problems. Experienced in system analysis and data processing, with a structured mindset, adaptability, and a strong drive to keep learning and growing.",
+      bio: "Bachelor's degree graduate in Informatics from Universitas Teknologi Yogyakarta with a GPA of 3.60. Possesses skills in system analysis, application development, and data processing. Accustomed to thinking systematically, solving problems in a structured manner, and maintaining high accuracy in managing information. Demonstrates strong adaptability, discipline, and the ability to work both independently and collaboratively within a team. Committed to continuous learning and developing both technical and non-technical competencies to contribute effectively in a professional work environment.",
       email: "havin.personal@gmail.com",
       whatsapp: "6281252205174",
       github: "https://github.com/Havinoia",
