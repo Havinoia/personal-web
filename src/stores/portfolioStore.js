@@ -161,15 +161,6 @@ export const usePortfolioStore = defineStore("portfolio", {
           { name: "Nginx", img: "/images/nginx.png", desc: "High performance web server.", setupCode: "nginx -v", docUrl: "https://nginx.org/" },
         ],
       },
-      {
-        category: "Soft Skills",
-        icon: "🤝",
-        items: [
-          { name: "Analytical Problem Solving", img: null, desc: "The ability to visualize, articulate, conceptualize or solve both complex and uncomplicated problems.", setupCode: null, docUrl: null },
-          { name: "Structured System Thinking", img: null, desc: "A holistic approach to analysis that focuses on the way that a system's constituent parts interrelate.", setupCode: null, docUrl: null },
-          { name: "Technical Communication", img: null, desc: "The process of conveying complex information about the technical world.", setupCode: null, docUrl: null },
-        ],
-      },
     ],
     profile: {
       name: "Havin Neo Dimas Nugraha",
