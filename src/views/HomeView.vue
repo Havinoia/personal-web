@@ -677,6 +677,7 @@ function onResize() {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
     recalcPadding();
+    updateMinSkillsHeight();
     if (isLoopMode.value) snapNearestLoop();
     else snapToIndexNoLoop(activeIndex.value);
     requestAboutProgressUpdate();
