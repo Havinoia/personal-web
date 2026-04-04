@@ -323,7 +323,7 @@ function getStride() {
   return getCardW() + getGap();
 }
 
-const isLoopMode = computed(() => store.projects.length >= 6);
+const isLoopMode = computed(() => store.projects.length >= 10);
 const loopedProjects = computed(() => {
   const p = store.projects;
   if (!p.length) return [];
