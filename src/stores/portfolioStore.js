@@ -126,7 +126,7 @@ export const usePortfolioStore = defineStore("portfolio", {
         ],
       },
       {
-        category: "Framework & Library Frontend",
+        category: "Frontend",
         icon: "🎨",
         items: [
           { name: "React", img: "/images/react.png", desc: "A JavaScript library for building user interfaces.", setupCode: "npx create-react-app my-app", docUrl: "https://reactjs.org/" },
@@ -134,7 +134,7 @@ export const usePortfolioStore = defineStore("portfolio", {
         ],
       },
       {
-        category: "Framework & Library Backend",
+        category: "Backend",
         icon: "⚙️",
         items: [
           { name: "Laravel", img: "/images/laravel.png", desc: "The PHP Framework for Web Artisans.", setupCode: "composer create-project laravel/laravel app", docUrl: "https://laravel.com/" },
@@ -148,7 +148,6 @@ export const usePortfolioStore = defineStore("portfolio", {
           { name: "MySQL", img: "/images/mysql.png", desc: "The world's most popular open source database.", setupCode: "mysql --version", docUrl: "https://www.mysql.com/" },
           { name: "PostgreSQL", img: "/images/postgresql.png", desc: "The world's most advanced open source relational database.", setupCode: "postgres --version", docUrl: "https://www.postgresql.org/" },
           { name: "SQLite", img: "/images/sqlite.png", desc: "C-language library that implements a small, fast, self-contained SQL database engine.", setupCode: "sqlite3 --version", docUrl: "https://www.sqlite.org/" },
-          { name: "Database Design", img: null, desc: "Process of producing a detailed data model of a database.", setupCode: null, docUrl: "https://en.wikipedia.org/wiki/Database_design" },
         ],
       },
       {

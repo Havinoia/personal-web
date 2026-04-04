@@ -125,6 +125,29 @@ const displayedSkills = ref([]);
 const isFilteringSkills = ref(false);
 const skillsViewKey = ref(0);
 
+const skillsGridShell = ref(null);
+const minSkillsHeight = ref(0);
+
+function updateMinSkillsHeight() {
+  if (activeFilter.value === "All" && skillsGridShell.value) {
+    // Tunggu render selesai
+    requestAnimationFrame(() => {
+      if (skillsGridShell.value) {
+        // Reset minHeight dulu untuk ukur tinggi asli
+        const originalMin = minSkillsHeight.value;
+        minSkillsHeight.value = 0;
+        requestAnimationFrame(() => {
+          if (skillsGridShell.value) {
+            minSkillsHeight.value = skillsGridShell.value.offsetHeight;
+          } else {
+            minSkillsHeight.value = originalMin;
+          }
+        });
+      }
+    });
+  }
+}
+
 const normalizedSkills = computed(() =>
   store.skills.flatMap((category, categoryIndex) =>
     category.items.map((item, itemIndex) => ({
@@ -152,6 +175,9 @@ function getSkillsByFilter(category = activeFilter.value) {
 function syncDisplayedSkills(category = activeFilter.value) {
   displayedSkills.value = getSkillsByFilter(category);
   skillsViewKey.value += 1;
+  if (category === "All") {
+    updateMinSkillsHeight();
+  }
 }
 
 const setFilter = (cat) => {
@@ -701,6 +727,7 @@ onMounted(() => {
   // Digabung dalam satu timeout singkat agar tidak memberatkan loading awal
   setTimeout(() => {
     initScrollFade();
+    updateMinSkillsHeight();
   }, 150);
 
   requestAboutProgressUpdate();
@@ -1054,8 +1081,10 @@ onUnmounted(() => {
 
       <div class="skills-container-centered">
         <div
+          ref="skillsGridShell"
           class="skills-grid-shell"
           :class="{ 'is-filtering': isFilteringSkills }"
+          :style="{ minHeight: activeFilter === 'All' ? '0' : minSkillsHeight + 'px' }"
         >
           <div
             :key="skillsViewKey"
