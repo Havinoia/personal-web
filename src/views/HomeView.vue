@@ -48,8 +48,8 @@ function closeTechModal() {
   }, 260);
 }
 
-const aboutParagraph = computed(() => store.profile.bio);
-const aboutWords = computed(() => aboutParagraph.value.trim().split(/\s+/));
+const aboutParagraph = computed(() => store.profile.bio || "");
+const aboutWords = computed(() => aboutParagraph.value.trim().length ? aboutParagraph.value.trim().split(/\s+/) : []);
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
@@ -312,7 +312,9 @@ function getGap() {
   const el = scrollContainer.value;
   if (!el) return 22;
   const styles = window.getComputedStyle(el);
-  const gap = parseFloat(styles.columnGap || styles.gap || "22");
+  const gapStr = styles.columnGap || styles.gap;
+  if (!gapStr || gapStr === 'normal') return 22;
+  const gap = parseFloat(gapStr);
   return Number.isFinite(gap) ? gap : 22;
 }
 function getStride() {
@@ -375,8 +377,18 @@ function typewrite() {
 const form = ref({ name: "", email: "", subject: "", message: "" });
 const formStatus = ref("");
 async function submitForm() {
+  // Basic validation
   if (!form.value.name || !form.value.email || !form.value.message) {
     formStatus.value = "error";
+    setTimeout(() => (formStatus.value = ""), 3000);
+    return;
+  }
+  
+  // Email regex validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(form.value.email)) {
+    formStatus.value = "error";
+    console.error("Invalid email format");
     setTimeout(() => (formStatus.value = ""), 3000);
     return;
   }

@@ -28,8 +28,9 @@ const project = computed(() => {
 
 // Setup next project
 const nextProject = computed(() => {
-  if (!project.value) return null;
+  if (!project.value || !store.projects.length) return null;
   const currentIndex = store.projects.findIndex(p => p.id === project.value.id);
+  if (currentIndex === -1) return null;
   const nextIndex = (currentIndex + 1) % store.projects.length;
   return store.projects[nextIndex];
 });
