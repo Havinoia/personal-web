@@ -104,16 +104,16 @@ onMounted(() => {
         <div v-if="showAccessModal" class="pd-modal-overlay" @click.self="showAccessModal = false">
           <div class="pd-modal-content">
             <h3 class="pd-modal-title">Access Restricted</h3>
-            <p class="pd-modal-text">Silakan meminta persetujuan admin untuk melihat website ini secara langsung.</p>
+            <p class="pd-modal-text">Please request admin approval to view this website live.</p>
             <div class="pd-modal-actions">
-              <a :href="`https://wa.me/6281252205174?text=Halo,%20saya%20ingin%20meminta%20akses%20untuk%20melihat%20web%20${encodeURIComponent(project.title)}`" 
+              <a :href="`https://wa.me/6281252205174?text=Hello,%20I'd%20like%20to%20request%20access%20to%20view%20the%20${encodeURIComponent(project.title)}%20website`" 
                  target="_blank" class="pd-modal-btn-wa">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12.001 2c-5.514 0-10 4.486-10 10 0 1.77.464 3.496 1.344 5.03L2.015 22l5.127-1.332A9.957 9.957 0 0012.001 22c5.514 0 10-4.486 10-10s-4.486-10-10-10zM17.47 15.655c-.237.669-1.374 1.282-1.928 1.353-.518.067-1.187.175-3.08-.607-2.274-.937-3.72-3.266-3.832-3.415-.113-.15-.916-1.222-.916-2.33 0-1.109.576-1.655.782-1.884.205-.228.448-.286.598-.286.15 0 .3.003.432.008.136.006.315-.052.493.376.18.43.616 1.503.673 1.616.056.113.094.246.019.398-.075.15-.113.245-.225.358-.113.113-.238.252-.338.341-.112.102-.232.215-.104.437.127.221.564.935 1.214 1.513.842.748 1.54 1.05 1.764 1.164.225.114.358.094.492-.056.13-.15.568-.66.72-.888.15-.227.301-.19.507-.113.206.075 1.312.617 1.537.731.225.113.375.169.431.263.056.095.056.545-.181 1.214z"/>
                 </svg>
                 Request via WhatsApp
               </a>
-              <button @click="showAccessModal = false" class="pd-modal-btn-cancel">Batal</button>
+              <button @click="showAccessModal = false" class="pd-modal-btn-cancel">Cancel</button>
             </div>
           </div>
         </div>
