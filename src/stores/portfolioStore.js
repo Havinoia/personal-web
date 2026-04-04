@@ -99,8 +99,8 @@ export const usePortfolioStore = defineStore("portfolio", {
         demo: "https://github.com/Havinoia/jobhunt.git",
         github: "https://github.com/Havinoia/jobhunt.git",
         featured: true,
-        image: "/images/mockup-porto4.png", // Menggunakan mockup sementara
-        gallery: ["/images/doc4-1.png", "/images/doc4-2.png", "/images/doc4-3.png"],
+        image: "/images/mockup-porto5.png", // Menggunakan mockup sementara
+        gallery: ["/images/doc5-1.png", "/images/doc5-2.png", "/images/doc5-3.png", "/images/doc5-4.png"],
         emoji: "💼",
         month: "April",
         year: "2024",
@@ -124,7 +124,7 @@ export const usePortfolioStore = defineStore("portfolio", {
         demo: "https://github.com/Havinoia/typerush.git",
         github: "https://github.com/Havinoia/typerush.git",
         featured: true,
-        image: "/images/mockup-porto5.png",
+        image: "/images/mockup-porto6.png",
         gallery: ["/images/doc5-1.png", "/images/doc5-2.png", "/images/doc5-3.png", "/images/doc5-4.png"],
         emoji: "🏎️",
         month: "April",

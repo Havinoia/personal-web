@@ -8,6 +8,18 @@ const router = useRouter();
 const store = usePortfolioStore();
 
 const showAccessModal = ref(false);
+const lightboxImage = ref(null);
+
+function closeLightbox() {
+  lightboxImage.value = null;
+}
+
+function handleKeydown(e) {
+  if (e.key === 'Escape') {
+    closeLightbox();
+    showAccessModal.value = false;
+  }
+}
 
 const project = computed(() => {
   const id = parseInt(route.params.id);
@@ -28,9 +40,15 @@ watch(() => route.params.id, () => {
 
 onMounted(() => {
   window.scrollTo({ top: 0 });
+  window.addEventListener('keydown', handleKeydown);
   if (!project.value) {
     router.replace('/');
   }
+});
+
+import { onUnmounted } from 'vue';
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown);
 });
 </script>
 
@@ -67,7 +85,12 @@ onMounted(() => {
         <div class="pd-gallery-block" v-if="project.gallery && project.gallery.length">
           <h2 class="pd-section-title">Documentation</h2>
           <div class="pd-gallery-grid">
-            <img v-for="(img, idx) in project.gallery" :key="idx" :src="img" class="pd-gallery-img" alt="Gallery item" />
+            <img v-for="(img, idx) in project.gallery" 
+                 :key="idx" 
+                 :src="img" 
+                 class="pd-gallery-img" 
+                 alt="Gallery item"
+                 @click="lightboxImage = img" />
           </div>
         </div>
 
@@ -115,6 +138,23 @@ onMounted(() => {
               </a>
               <button @click="showAccessModal = false" class="pd-modal-btn-cancel">Cancel</button>
             </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
+
+    <!-- LIGHTBOX MODAL -->
+    <Teleport to="body">
+      <Transition name="fade">
+        <div v-if="lightboxImage" class="pd-lightbox-overlay" @click.self="closeLightbox">
+          <button class="pd-lightbox-close" @click="closeLightbox">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          <div class="pd-lightbox-content">
+            <img :src="lightboxImage" class="pd-lightbox-img" alt="Enlarged gallery item" />
           </div>
         </div>
       </Transition>
@@ -269,13 +309,12 @@ onMounted(() => {
 
 .pd-gallery-img {
   width: 100%;
-  height: auto;
   aspect-ratio: 16/10;
   object-fit: cover;
-  border-radius: 16px;
-  border: 1px solid rgba(125, 255, 155, 0.08);
-  transition: transform 0.4s var(--ease), border-color 0.4s;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor: zoom-in;
+  transition: all 0.3s var(--ease);
 }
 
 .pd-gallery-img:hover {
@@ -446,6 +485,72 @@ onMounted(() => {
 .pd-modal-btn-cancel:hover {
   background: rgba(255,255,255,0.05);
   color: white;
+}
+
+/* LIGHTBOX */
+.pd-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 12, 8, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  cursor: zoom-out;
+}
+
+.pd-lightbox-close {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+  z-index: 2010;
+}
+
+.pd-lightbox-close:hover {
+  background: rgba(255,255,255,0.15);
+  transform: rotate(90deg);
+}
+
+.pd-lightbox-content {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pd-lightbox-img {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+  animation: lightboxZoom 0.4s var(--ease) forwards;
+}
+
+@keyframes lightboxZoom {
+  from { opacity: 0; transform: scale(0.92) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .pd-lightbox-overlay { padding: 20px; }
+  .pd-lightbox-close { top: 20px; right: 20px; width: 40px; height: 40px; }
 }
 
 /* TRANSITIONS */
