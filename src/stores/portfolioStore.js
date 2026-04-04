@@ -125,7 +125,7 @@ export const usePortfolioStore = defineStore("portfolio", {
         github: "https://github.com/Havinoia/typerush.git",
         featured: true,
         image: "/images/mockup-porto6.png",
-        gallery: ["/images/doc5-1.png", "/images/doc5-2.png", "/images/doc5-3.png", "/images/doc5-4.png"],
+        gallery: ["/images/doc6-1.png", "/images/doc6-2.png", "/images/doc6-3.png", "/images/doc6-4.png"],
         emoji: "🏎️",
         month: "April",
         year: "2026",
