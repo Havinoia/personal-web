@@ -442,7 +442,7 @@ nav.is-scrolled .nav-bubble:hover {
 }
 .porto-card-img {
   width: 100%; height: 100%;
-  object-fit: contain; object-position: center;
+  object-fit: cover; object-position: center;
   transition: transform 0.6s ease !important;
 }
 .porto-card.active .porto-card-img { transform: scale(1.05); }

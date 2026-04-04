@@ -202,7 +202,6 @@ export const usePortfolioStore = defineStore("portfolio", {
         description:
           "Understanding the importance of technology-based records management to improve the efficiency of organizational information management.",
       },
-      // ...
     ],
   }),
 });
