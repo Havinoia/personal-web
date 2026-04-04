@@ -551,10 +551,6 @@ onUnmounted(() => {
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-@media (max-width: 768px) {
-  .pd-lightbox-overlay { padding: 20px; }
-  .pd-lightbox-close { top: 20px; right: 20px; width: 40px; height: 40px; }
-}
 
 /* TRANSITIONS */
 .fade-enter-active,
@@ -625,5 +621,10 @@ onUnmounted(() => {
   .pd-bottom-block { flex-direction: column; align-items: stretch; }
   .pd-btn-visit { justify-content: center; }
   .pd-footer { padding: 80px 20px; }
+
+  /* Lightbox Mobile Adjustments */
+  .pd-lightbox-overlay { padding: 16px; }
+  .pd-lightbox-close { top: 16px; right: 16px; width: 40px; height: 40px; background: rgba(0,0,0,0.5); border-color: rgba(255,255,255,0.2); }
+  .pd-lightbox-img { max-width: 95vw; max-height: 80vh; border-radius: 8px; }
 }
 </style>
