@@ -1582,6 +1582,9 @@ onUnmounted(() => {
               </svg>
             </span>
           </button>
+          <div class="form-footer">
+            <span class="form-powered-by">Powered by EmailJS</span>
+          </div>
         </form>
       </div>
     </section>

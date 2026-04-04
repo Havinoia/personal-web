@@ -90,6 +90,24 @@ export const usePortfolioStore = defineStore("portfolio", {
       },
       {
         id: 5,
+        title: "JobHunt",
+        description:
+          "A comprehensive job application tracker designed to streamline the career search process. Includes a Chrome extension for easy job saving and a feature-rich Laravel dashboard for managing status and resumes.",
+        fullDescription:
+          "JobHunt transforms the chaotic job hunting process into a structured workflow. It offers a Chrome Extension that allows users to instantly save job listings from any website, and a central Laravel-powered dashboard to track application stages, store specific resumes, and manage interview schedules. Built with a focus on ease of use and professional career management.",
+        tags: ["Laravel 11", "Chrome Extension", "Tailwind CSS", "PostgreSQL", "Manifest v3"],
+        demo: "https://github.com/Havinoia/jobhunt.git",
+        github: "https://github.com/Havinoia/jobhunt.git",
+        featured: true,
+        image: "/images/mockup-porto4.png", // Menggunakan mockup sementara
+        gallery: ["/images/doc4-1.png", "/images/doc4-2.png", "/images/doc4-3.png"],
+        emoji: "💼",
+        month: "April",
+        year: "2024",
+        themes: ["Extension", "Productivity", "Web App"],
+      },
+      {
+        id: 6,
         title: "TypeRush",
         description:
           "A modern speed-typing platform designed for a seamless, accurate, and challenging typing experience. Features real-time WPM and accuracy tracking.",
