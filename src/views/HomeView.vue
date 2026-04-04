@@ -130,17 +130,23 @@ const minSkillsHeight = ref(0);
 
 function updateMinSkillsHeight() {
   if (activeFilter.value === "All" && skillsGridShell.value) {
-    // Tunggu render selesai
     requestAnimationFrame(() => {
       if (skillsGridShell.value) {
-        // Reset minHeight dulu untuk ukur tinggi asli
-        const originalMin = minSkillsHeight.value;
-        minSkillsHeight.value = 0;
+        // Simpan min-height lama
+        const oldMin = skillsGridShell.value.style.minHeight;
+        // Reset min-height via DOM saja untuk ukur
+        skillsGridShell.value.style.minHeight = "0px";
+        
         requestAnimationFrame(() => {
           if (skillsGridShell.value) {
-            minSkillsHeight.value = skillsGridShell.value.offsetHeight;
-          } else {
-            minSkillsHeight.value = originalMin;
+            const h = skillsGridShell.value.offsetHeight;
+            if (h > 100) { // Safety check
+              minSkillsHeight.value = h;
+            }
+          }
+          // Kembalikan via style binding (Vue akan handle setelah ini)
+          if (skillsGridShell.value) {
+            skillsGridShell.value.style.minHeight = oldMin;
           }
         });
       }
@@ -1085,7 +1091,7 @@ onUnmounted(() => {
           ref="skillsGridShell"
           class="skills-grid-shell"
           :class="{ 'is-filtering': isFilteringSkills }"
-          :style="{ minHeight: activeFilter === 'All' ? '0' : minSkillsHeight + 'px' }"
+          :style="{ minHeight: minSkillsHeight + 'px' }"
         >
           <div
             :key="skillsViewKey"
