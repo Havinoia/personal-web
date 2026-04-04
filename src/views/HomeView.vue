@@ -1227,9 +1227,16 @@ onUnmounted(() => {
               </div>
               <div class="tech-modal-header-text">
                 <h3 class="tech-modal-title">{{ activeTech?.name }}</h3>
-                <p class="tech-modal-desc">{{ activeTech?.desc || 'Pelajari cara instalasi teknologi ini dari dokumentasi resminya.' }}</p>
+                <p class="tech-modal-eyebrow">Technology Overview</p>
               </div>
             </div>
+
+            <p class="tech-modal-detailed-desc" v-if="activeTech?.desc">
+              {{ activeTech.desc }}
+            </p>
+            <p class="tech-modal-detailed-desc" v-else>
+              Pelajari cara instalasi dan penggunaan teknologi ini melalui terminal atau dokumentasi resmi.
+            </p>
             
             <div class="tech-modal-terminal" v-if="activeTech?.setupCode">
               <div class="tech-terminal-top">
