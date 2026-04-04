@@ -116,33 +116,58 @@ export const usePortfolioStore = defineStore("portfolio", {
     ],
     skills: [
       {
-        category: "Frontend",
-        icon: "🖥️",
+        category: "Programming Languages",
+        icon: "💻",
         items: [
-          { name: "Vue", img: "/images/vue.png", desc: "The Progressive JavaScript Framework for building user interfaces.", setupCode: "npm create vue@latest", docUrl: "https://vuejs.org/guide/quick-start.html" },
-          { name: "React", img: "/images/react.png", desc: "A JavaScript library for building user interfaces.", setupCode: "npm create vite@latest my-react-app --template react", docUrl: "https://react.dev/learn/start-a-new-react-project" },
-          { name: "TypeScript", img: "/images/ts.png", desc: "Strongly typed programming language that builds on JavaScript.", setupCode: "npm install -g typescript\ntsc --init", docUrl: "https://www.typescriptlang.org/download" },
-          { name: "Tailwind", img: "/images/tw.png", desc: "A utility-first CSS framework for rapid UI development.", setupCode: "npm install -D tailwindcss\nnpx tailwindcss init", docUrl: "https://tailwindcss.com/docs/installation" },
-          { name: "Vite", img: "/images/vite.png", desc: "Next Generation Frontend Tooling.", setupCode: "npm create vite@latest", docUrl: "https://vitejs.dev/guide/" },
+          { name: "PHP", img: "/images/php.png", desc: "A popular general-purpose scripting language that is especially suited to web development.", setupCode: "php -v", docUrl: "https://www.php.net/" },
+          { name: "JavaScript", img: "/images/js.png", desc: "High-level, often just-in-time compiled language that conforms to the ECMAScript specification.", setupCode: "node -v", docUrl: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+          { name: "TypeScript", img: "/images/ts.png", desc: "Strongly typed programming language that builds on JavaScript.", setupCode: "tsc -v", docUrl: "https://www.typescriptlang.org/" },
+          { name: "Python", img: "/images/python.png", desc: "Interpreted high-level general-purpose programming language.", setupCode: "python --version", docUrl: "https://www.python.org/" },
         ],
       },
       {
-        category: "Backend",
+        category: "Framework & Library Frontend",
+        icon: "🎨",
+        items: [
+          { name: "React", img: "/images/react.png", desc: "A JavaScript library for building user interfaces.", setupCode: "npx create-react-app my-app", docUrl: "https://reactjs.org/" },
+          { name: "Vue", img: "/images/vue.png", desc: "The Progressive JavaScript Framework.", setupCode: "npm create vue@latest", docUrl: "https://vuejs.org/" },
+        ],
+      },
+      {
+        category: "Framework & Library Backend",
         icon: "⚙️",
         items: [
-          { name: "Laravel", img: "/images/laravel.png", desc: "The PHP Framework for Web Artisans.", setupCode: "composer create-project laravel/laravel example-app", docUrl: "https://laravel.com/docs/installation" },
-          { name: "PHP", img: "/images/php.png", desc: "A popular general-purpose scripting language that is especially suited to web development.", setupCode: "php -S localhost:8000", docUrl: "https://www.php.net/manual/en/install.php" },
-          { name: "MySQL", img: "/images/mysql.png", desc: "The world's most popular open source database.", setupCode: "mysql -u root -p", docUrl: "https://dev.mysql.com/doc/refman/8.0/en/installing.html" },
+          { name: "Laravel", img: "/images/laravel.png", desc: "The PHP Framework for Web Artisans.", setupCode: "composer create-project laravel/laravel app", docUrl: "https://laravel.com/" },
+          { name: "Next.js", img: "/images/nextjs.png", desc: "The React Framework for the Web.", setupCode: "npx create-next-app@latest", docUrl: "https://nextjs.org/" },
+        ],
+      },
+      {
+        category: "Database & Query",
+        icon: "📊",
+        items: [
+          { name: "MySQL", img: "/images/mysql.png", desc: "The world's most popular open source database.", setupCode: "mysql --version", docUrl: "https://www.mysql.com/" },
+          { name: "PostgreSQL", img: "/images/postgresql.png", desc: "The world's most advanced open source relational database.", setupCode: "postgres --version", docUrl: "https://www.postgresql.org/" },
+          { name: "SQLite", img: "/images/sqlite.png", desc: "C-language library that implements a small, fast, self-contained SQL database engine.", setupCode: "sqlite3 --version", docUrl: "https://www.sqlite.org/" },
+          { name: "Database Design", img: null, desc: "Process of producing a detailed data model of a database.", setupCode: null, docUrl: "https://en.wikipedia.org/wiki/Database_design" },
         ],
       },
       {
         category: "DevOps",
         icon: "🗄️",
         items: [
-          { name: "Docker", img: "/images/docker.png", desc: "Empowering App Development for Developers.", setupCode: "docker run -d -p 80:80 docker/getting-started", docUrl: "https://docs.docker.com/get-started/" },
-          { name: "Git", img: "/images/git.png", desc: "Free and open source distributed version control system.", setupCode: "git init\ngit add .\ngit commit -m \"Initial commit\"", docUrl: "https://git-scm.com/doc" },
-          { name: "Linux", img: "/images/linux.png", desc: "Family of open-source Unix-like operating systems based on the Linux kernel.", setupCode: "sudo apt update && sudo apt upgrade", docUrl: "https://www.linux.org/" },
-          { name: "Nginx", img: "/images/nginx.png", desc: "High Performance Load Balancer, Web Server, & Reverse Proxy.", setupCode: "sudo apt install nginx\nsudo systemctl start nginx", docUrl: "https://nginx.org/en/docs/beginners_guide.html" },
+          { name: "Docker", img: "/images/docker.png", desc: "Empowering App Development for Developers.", setupCode: "docker --version", docUrl: "https://www.docker.com/" },
+          { name: "Git", img: "/images/git.png", desc: "Distributed version control system.", setupCode: "git --version", docUrl: "https://git-scm.com/" },
+          { name: "Linux", img: "/images/linux.png", desc: "Open-source Unix-like operating systems.", setupCode: "uname -a", docUrl: "https://www.linux.org/" },
+          { name: "Nginx", img: "/images/nginx.png", desc: "High performance web server.", setupCode: "nginx -v", docUrl: "https://nginx.org/" },
+        ],
+      },
+      {
+        category: "Soft Skills",
+        icon: "🤝",
+        items: [
+          { name: "Analytical Problem Solving", img: null, desc: "The ability to visualize, articulate, conceptualize or solve both complex and uncomplicated problems.", setupCode: null, docUrl: null },
+          { name: "Structured System Thinking", img: null, desc: "A holistic approach to analysis that focuses on the way that a system's constituent parts interrelate.", setupCode: null, docUrl: null },
+          { name: "Technical Communication", img: null, desc: "The process of conveying complex information about the technical world.", setupCode: null, docUrl: null },
         ],
       },
     ],
