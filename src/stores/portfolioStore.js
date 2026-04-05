@@ -131,6 +131,24 @@ export const usePortfolioStore = defineStore("portfolio", {
         year: "2026",
         themes: ["Typing Tool", "Education", "Web App"],
       },
+      {
+        id: 7,
+        title: "GAMIFY_SYSTEM v3.0",
+        description:
+          "A high-fidelity, gamified learning platform with a 90s Arcade & Cyberpunk aesthetic. Built with Laravel 13 and Tailwind CSS v4 to deliver an immersive, retro-futuristic user experience.",
+        fullDescription:
+          "GAMIFY_SYSTEM v3.0 is a cutting-edge engagement platform that blends education with the high-octane energy of a 90s arcade. Utilizing the latest Laravel 13 features and Tailwind CSS v4, it features a complete 'Dark Arcade' design system with CRT scanline effects, flickering animations, and neon-drenched interfaces. The system includes interactive quest-based quizzes, a real-time 'Hall of Fame' leaderboard, and a persistent achievement badge system. Every interaction, from the 'System Boot' authentication sequence to the dynamic dashboard, is engineered to transport users into a gamified, retro-tech atmosphere.",
+        tags: ["Laravel 13", "Livewire", "Tailwind CSS v4", "Vite", "MySQL"],
+        demo: "https://github.com/Havinoia/gamify.git",
+        github: "https://github.com/Havinoia/gamify.git",
+        featured: true,
+        image: "/images/mockup-porto7.png",
+        gallery: ["/images/doc7-1.png", "/images/doc7-2.png", "/images/doc7-3.png", "/images/doc7-4.png", "/images/doc7-5.png", "/images/doc7-6.png"],
+        emoji: "🕹️",
+        month: "April",
+        year: "2026",
+        themes: ["Gamification", "Education", "Web App"],
+      },
     ],
     skills: [
       {

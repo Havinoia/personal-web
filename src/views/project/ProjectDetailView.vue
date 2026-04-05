@@ -278,7 +278,7 @@ onUnmounted(() => {
 }
 
 .pd-container {
-  max-width: 860px;
+  max-width: 1040px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -303,15 +303,14 @@ onUnmounted(() => {
 /* GALLERY */
 .pd-gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 32px;
 }
 
 .pd-gallery-img {
   width: 100%;
-  aspect-ratio: 16/10;
-  object-fit: cover;
-  border-radius: 12px;
+  height: auto;
+  border-radius: 16px;
   border: 1px solid rgba(255,255,255,0.06);
   cursor: zoom-in;
   transition: all 0.3s var(--ease);
