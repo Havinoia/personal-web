@@ -417,8 +417,10 @@ async function submitForm() {
 
 // Scroll / drag
 let isDown = false,
-  isDragging = false;
+  isDragging = false,
+  isScrollingY = false;
 let startX = 0,
+  startY = 0,
   scrollStart = 0;
 let momentumId = null,
   snapId = null;
@@ -594,7 +596,9 @@ function onMouseDown(e) {
   if (snapId) cancelAnimationFrame(snapId);
   isDown = true;
   isDragging = false;
+  isScrollingY = false;
   startX = e.pageX;
+  startY = e.pageY;
   scrollStart = el.scrollLeft;
   lastX = e.pageX;
   lastT = performance.now();
@@ -604,10 +608,20 @@ function onMouseDown(e) {
 function onMouseMove(e) {
   const el = scrollContainer.value;
   if (!isDown || !el) return;
-  e.preventDefault();
+  
   const dx = e.pageX - startX;
-  if (Math.abs(dx) > 10) isDragging = true;
+  const dy = e.pageY - startY;
+
+  // Determine if it's a vertical or horizontal movement
+  if (!isDragging && !isScrollingY) {
+    if (Math.abs(dx) > 10) isDragging = true;
+    else if (Math.abs(dy) > 10) isScrollingY = true;
+  }
+
+  if (isScrollingY) return;
   if (!isDragging) return;
+
+  e.preventDefault();
   const now = performance.now(),
     dt = now - lastT;
   if (dt > 0) vel = (e.pageX - lastX) / dt;
@@ -622,12 +636,13 @@ function onMouseUp(e) {
   if (!isDown) return;
   isDown = false;
   if (el) el.style.cursor = "grab";
-  if (!isDragging) {
+  
+  if (!isDragging && !isScrollingY) {
     tryOpenProject(e);
-    isDragging = false;
     return;
   }
   isDragging = false;
+  isScrollingY = false;
   startMomentum();
 }
 function onMouseLeave() {
@@ -699,7 +714,8 @@ function onTouchMove(e) {
   activeIndex.value = getActiveFromScroll();
 }
 function onTouchEnd(e) {
-  if (!tDrag) {
+  // Only open project if it wasn't a significant swipe (horizontal) or scroll (vertical)
+  if (!tDrag && tIsScrolling !== true) {
     tryOpenProject(e);
     return;
   }
