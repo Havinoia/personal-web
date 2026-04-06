@@ -639,36 +639,62 @@ function onMouseLeave() {
   startMomentum();
 }
 
-let tStart = 0,
-  tScroll = 0,
+let tStartX = 0,
+  tStartY = 0,
+  tScrollStart = 0,
   tLastX = 0,
   tLastT = 0,
   tVel = 0,
-  tDrag = false;
+  tDrag = false,
+  tIsScrolling = null;
 function onTouchStart(e) {
   const el = scrollContainer.value;
-  if (!el) return;
+  if (!el || !e.touches[0]) return;
   if (momentumId) cancelAnimationFrame(momentumId);
   if (snapId) cancelAnimationFrame(snapId);
-  tStart = e.touches[0].pageX;
-  tScroll = el.scrollLeft;
+  
+  tStartX = e.touches[0].pageX;
+  tStartY = e.touches[0].pageY;
+  tScrollStart = el.scrollLeft;
   tLastX = e.touches[0].pageX;
   tLastT = performance.now();
   tVel = 0;
   tDrag = false;
+  tIsScrolling = null;
 }
 function onTouchMove(e) {
   const el = scrollContainer.value;
-  if (!el) return;
-  const dx = e.touches[0].pageX - tStart;
+  if (!el || !e.touches[0]) return;
+
+  const dx = e.touches[0].pageX - tStartX;
+  const dy = e.touches[0].pageY - tStartY;
+
+  // Determine direction if not already set
+  if (tIsScrolling === null) {
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 5) {
+      tIsScrolling = false; // Horizontal swipe
+    } else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 5) {
+      tIsScrolling = true; // Vertical scroll
+    }
+  }
+
+  // If vertical scroll detected, bail out and let native browser handle it
+  if (tIsScrolling === true) return;
+  
+  // If horizontal swipe detected, lock vertical scroll
+  if (tIsScrolling === false) {
+    if (e.cancelable) e.preventDefault();
+  }
+
   if (Math.abs(dx) > 10) tDrag = true;
   if (!tDrag) return;
+
   const now = performance.now(),
     dt = now - tLastT;
   if (dt > 0) tVel = (e.touches[0].pageX - tLastX) / dt;
   tLastX = e.touches[0].pageX;
   tLastT = now;
-  el.scrollLeft = tScroll - dx;
+  el.scrollLeft = tScrollStart - dx;
   if (isLoopMode.value) checkLoop();
   activeIndex.value = getActiveFromScroll();
 }
@@ -711,7 +737,13 @@ onMounted(() => {
     });
     resizeObserver.observe(el);
 
-    // 2. Inisialisasi Posisi (Gunakan timeout kecil agar layout settle)
+    // 2. Touch listeners with passive:false to allow preventDefault
+    el.addEventListener("touchstart", onTouchStart, { passive: false });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+    el.addEventListener("touchcancel", onTouchCancel, { passive: true });
+
+    // 3. Inisialisasi Posisi (Gunakan timeout kecil agar layout settle)
     setTimeout(() => {
       recalcPadding();
       if (isLoopMode.value) {
@@ -725,20 +757,20 @@ onMounted(() => {
     }, 100);
   }
 
-  // 2. Event Listeners Global
+  // 4. Event Listeners Global
   window.addEventListener("resize", onResize);
   window.addEventListener("keydown", onModalKeydown);
   window.addEventListener("scroll", requestAboutProgressUpdate, {
     passive: true,
   });
 
-  // 3. Efek Visual (Typewriter & Cursor)
+  // 5. Efek Visual (Typewriter & Cursor)
   typeTimer = setTimeout(typewrite, 600);
   cursorTimer = setInterval(() => {
     showCursor.value = !showCursor.value;
   }, 530);
 
-  // 4. Inisialisasi Observer (Fade-in & Tech Stack Reveal)
+  // 6. Inisialisasi Observer (Fade-in & Tech Stack Reveal)
   // Digabung dalam satu timeout singkat agar tidak memberatkan loading awal
   setTimeout(() => {
     initScrollFade();
@@ -765,6 +797,14 @@ onUnmounted(() => {
   window.removeEventListener("keydown", onModalKeydown);
   window.removeEventListener("scroll", requestAboutProgressUpdate);
   if (resizeObserver) resizeObserver.disconnect();
+
+  const el = scrollContainer.value;
+  if (el) {
+    el.removeEventListener("touchstart", onTouchStart);
+    el.removeEventListener("touchmove", onTouchMove);
+    el.removeEventListener("touchend", onTouchEnd);
+    el.removeEventListener("touchcancel", onTouchCancel);
+  }
 
   // 4. Matikan Semua Observer (Mencegah Memory Leak)
   [observerIn, observerOut].forEach((obs) => {
@@ -819,10 +859,6 @@ onUnmounted(() => {
           @mouseup="onMouseUp"
           @mouseleave="onMouseLeave"
           @mousemove="onMouseMove"
-          @touchstart="onTouchStart"
-          @touchmove="onTouchMove"
-          @touchend="onTouchEnd"
-          @touchcancel="onTouchCancel"
         >
           <div
             v-for="(project, index) in loopedProjects"
