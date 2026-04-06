@@ -149,6 +149,24 @@ export const usePortfolioStore = defineStore("portfolio", {
         year: "2026",
         themes: ["Gamification", "Education", "Web App"],
       },
+      {
+        id: 8,
+        title: "Buana Computer",
+        description:
+          "A professional tech service and spare part showcase platform with real-time search and dynamic ordering. Built with Next.js 14, Supabase, and Tailwind CSS v4.",
+        fullDescription:
+          "Buana Computer is a high-performance web platform designed for a technology service center. It features a comprehensive product showcase for laptops and spare parts, integrated with a real-time search engine for instant unit discovery. The platform includes a dynamic ordering system that adapts to both product sales and service requests (on-site or in-shop). Powered by Next.js 14 and Supabase for authentication and database management, it delivers a premium, responsive experience with a modern UI crafted using Tailwind CSS v4 and Lucide icons.",
+        tags: ["Next.js 14", "Supabase", "TypeScript", "Tailwind CSS v4", "Lucide React"],
+        demo: "https://github.com/Havinoia/buanacomputer.git",
+        github: "https://github.com/Havinoia/buanacomputer.git",
+        featured: true,
+        image: "/images/mockup-porto8.png",
+        gallery: ["/images/doc8-1.png", "/images/doc8-2.png", "/images/doc8-3.png", "/images/doc8-4.png", "/images/doc8-5.png"],
+        emoji: "💻",
+        month: "April",
+        year: "2026",
+        themes: ["Service Platform", "E-Commerce", "Web App"],
+      },
     ],
     skills: [
       {
