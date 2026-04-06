@@ -42,6 +42,18 @@ watch(() => route.params.id, () => {
 onMounted(() => {
   window.scrollTo({ top: 0 });
   window.addEventListener('keydown', handleKeydown);
+  
+  // Animation Observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.scroll-fade').forEach(el => observer.observe(el));
+
   if (!project.value) {
     router.replace('/');
   }
@@ -78,13 +90,13 @@ onUnmounted(() => {
       <div class="pd-container">
         
         <!-- Description -->
-        <div class="pd-desc-block">
+        <div class="pd-desc-block scroll-fade">
           <h2 class="pd-section-title">Overview</h2>
           <p class="pd-desc">{{ project.fullDescription || project.description }}</p>
         </div>
 
         <!-- Gallery -->
-        <div class="pd-gallery-block" v-if="project.gallery && project.gallery.length">
+        <div class="pd-gallery-block scroll-fade" v-if="project.gallery && project.gallery.length" style="transition-delay: 0.1s">
           <h2 class="pd-section-title">Documentation</h2>
           <div class="pd-gallery-grid">
             <img v-for="(img, idx) in project.gallery" 
@@ -97,7 +109,7 @@ onUnmounted(() => {
         </div>
 
         <!-- Tech & Link -->
-        <div class="pd-bottom-block">
+        <div class="pd-bottom-block scroll-fade" style="transition-delay: 0.2s">
           <div class="pd-tech">
             <h3 class="pd-tech-title">Tech Used</h3>
             <div class="pd-tech-list">
@@ -207,7 +219,7 @@ onUnmounted(() => {
 .pd-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(5, 10, 7, 0.45) 0%, rgba(5, 10, 7, 0.75) 65%, #050a07 100%);
+  background: linear-gradient(to bottom, rgba(5, 10, 7, 0.45) 0%, rgba(5, 10, 7, 0.82) 65%, #050a07 100%);
 }
 
 .pd-hero-content {
@@ -254,6 +266,7 @@ onUnmounted(() => {
   color: rgba(255, 255, 255, 0.95);
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 6px 18px;
   border-radius: 100px;
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -274,7 +287,7 @@ onUnmounted(() => {
   position: relative;
   z-index: 3;
   background: #050a07; /* Blank black */
-  padding: 100px 32px;
+  padding: clamp(60px, 12vw, 120px) clamp(20px, 5vw, 64px);
 }
 
 .pd-container {
@@ -303,8 +316,8 @@ onUnmounted(() => {
 /* GALLERY */
 .pd-gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 45vw, 500px), 1fr));
+  gap: clamp(16px, 3.5vw, 32px);
 }
 
 .pd-gallery-img {
@@ -601,11 +614,12 @@ onUnmounted(() => {
 @media (max-width: 768px) {
   .pd-hero-content { transform: translateY(5vh); padding: 0 20px; }
   .pd-hero { height: 75vh; }
-  .pd-meta { flex-direction: column; gap: 12px; }
-  .pd-content { padding: 60px 20px; }
+  .pd-meta { flex-direction: column; gap: 12px; margin-bottom: 32px; }
   .pd-container { gap: 56px; }
-  .pd-bottom-block { flex-direction: column; align-items: stretch; }
-  .pd-btn-visit { justify-content: center; }
+  .pd-bottom-block { flex-direction: column; align-items: stretch; border-top: none; }
+  .pd-tech { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 40px; }
+  .pd-action { flex-direction: column; }
+  .pd-btn-repo, .pd-btn-ghost { width: 100%; }
   .pd-footer { padding: 80px 20px; }
 
   /* Lightbox Mobile Adjustments */
