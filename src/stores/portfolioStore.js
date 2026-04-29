@@ -167,6 +167,24 @@ export const usePortfolioStore = defineStore("portfolio", {
         year: "2026",
         themes: ["Service Platform", "E-Commerce", "Web App"],
       },
+      {
+        id: 9,
+        title: "Bacayuk",
+        description:
+          "An immersive digital reading platform designed for an enhanced storytelling experience. Features AI-generated story imagery, a persistent bookmarking system, and a premium dashboard reveal.",
+        fullDescription:
+          "Bacayuk is a modern storytelling platform built to captivate readers. It offers a premium 'stationary' dashboard reveal that pins content for a seamless discovery process. The core reading experience is elevated by AI-generated imagery tailored to each story page, creating a deeply immersive atmosphere. Users can effortlessly curate their libraries using a robust bookmarking system that saves stories to a personalized Collections page. Leveraging modern server-side actions and a clean UI, Bacayuk delivers a fast, responsive, and visually stunning digital reading journey.",
+        tags: ["Next.js", "Tailwind CSS", "Server Actions", "PostgreSQL", "AI Imagery"],
+        demo: "https://github.com/Havinoia/bacayuk.git",
+        github: "https://github.com/Havinoia/bacayuk.git",
+        featured: true,
+        image: "/images/mockup-porto9.png",
+        gallery: ["/images/doc9-1.png", "/images/doc9-2.png", "/images/doc9-3.png", "/images/doc9-4.png", "/images/doc9-5.png", "/images/doc9-6.png"],
+        emoji: "📖",
+        month: "April",
+        year: "2026",
+        themes: ["Reading Platform", "Entertainment", "Web App"],
+      },
     ],
     skills: [
       {
