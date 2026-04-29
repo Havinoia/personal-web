@@ -171,10 +171,10 @@ export const usePortfolioStore = defineStore("portfolio", {
         id: 9,
         title: "Bacayuk",
         description:
-          "An immersive digital reading platform designed for an enhanced storytelling experience. Features AI-generated story imagery, a persistent bookmarking system, and a premium dashboard reveal.",
+          "A digital reading platform specifically designed for enjoying fairy tales and stories. Features a persistent bookmarking system for saving your favorite tales and a premium dashboard reveal.",
         fullDescription:
-          "Bacayuk is a modern storytelling platform built to captivate readers. It offers a premium 'stationary' dashboard reveal that pins content for a seamless discovery process. The core reading experience is elevated by AI-generated imagery tailored to each story page, creating a deeply immersive atmosphere. Users can effortlessly curate their libraries using a robust bookmarking system that saves stories to a personalized Collections page. Leveraging modern server-side actions and a clean UI, Bacayuk delivers a fast, responsive, and visually stunning digital reading journey.",
-        tags: ["Next.js", "Tailwind CSS", "Server Actions", "PostgreSQL", "AI Imagery"],
+          "Bacayuk is a modern digital platform dedicated to readers of fairy tales and various story genres. It offers a premium 'stationary' dashboard reveal that pins content for a seamless discovery process. The core reading experience is focused on simplicity and immersion, allowing users to fully dive into their favorite narratives. Readers can effortlessly curate their personal libraries using a robust bookmarking system that saves stories directly to a dedicated Collections page. Leveraging modern web technologies and a clean UI, Bacayuk provides a smooth and visually appealing digital reading journey.",
+        tags: ["Next.js", "Tailwind CSS", "Server Actions", "PostgreSQL"],
         demo: "https://github.com/Havinoia/bacayuk.git",
         github: "https://github.com/Havinoia/bacayuk.git",
         featured: true,
