@@ -1512,7 +1512,7 @@ section { position: relative; z-index: 1; padding: 100px 64px; }
    CONTACT
 ════════════════════════════════════════ */
 .contact-section { background: var(--bg); position: relative; }
-.contact-grid { display: grid; grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); gap: 56px; align-items: start; }
+.contact-grid { display: flex; justify-content: center; align-items: center; }
 .contact-info-list {
   list-style: none;
   display: flex;

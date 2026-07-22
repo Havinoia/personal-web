@@ -2,7 +2,6 @@
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { usePortfolioStore } from "../stores/portfolioStore";
-import emailjs from "@emailjs/browser";
 
 const store = usePortfolioStore();
 const router = useRouter();
@@ -373,47 +372,6 @@ function typewrite() {
   }
 }
 
-// Contact Form
-const form = ref({ name: "", email: "", subject: "", message: "" });
-const formStatus = ref("");
-async function submitForm() {
-  // Basic validation
-  if (!form.value.name || !form.value.email || !form.value.message) {
-    formStatus.value = "error";
-    setTimeout(() => (formStatus.value = ""), 3000);
-    return;
-  }
-  
-  // Email regex validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(form.value.email)) {
-    formStatus.value = "error";
-    console.error("Invalid email format");
-    setTimeout(() => (formStatus.value = ""), 3000);
-    return;
-  }
-  formStatus.value = "sending";
-  try {
-    await emailjs.send(
-      "service_mwdlpz9",
-      "template_z6rojrs",
-      {
-        from_name: form.value.name,
-        from_email: form.value.email,
-        subject: form.value.subject,
-        message: form.value.message,
-      },
-      "Q9iPwGcdzweQMDht0",
-    );
-    formStatus.value = "success";
-    form.value = { name: "", email: "", subject: "", message: "" };
-    setTimeout(() => (formStatus.value = ""), 4000);
-  } catch (err) {
-    console.error(err);
-    formStatus.value = "error";
-    setTimeout(() => (formStatus.value = ""), 4000);
-  }
-}
 
 // Scroll / drag
 let isDown = false,
@@ -1570,82 +1528,6 @@ onUnmounted(() => {
           </li>
         </ul>
 
-        <form
-          class="contact-form scroll-fade"
-          data-delay="2"
-          @submit.prevent="submitForm"
-        >
-          <div class="form-row">
-            <div class="form-group">
-              <input
-                class="form-input"
-                type="text"
-                placeholder="Name"
-                aria-label="Nama"
-                v-model="form.name"
-              />
-            </div>
-            <div class="form-group">
-              <input
-                class="form-input"
-                type="email"
-                placeholder="Email"
-                aria-label="Email"
-                v-model="form.email"
-              />
-            </div>
-          </div>
-          <div class="form-group">
-            <input
-              class="form-input"
-              type="text"
-              placeholder="Subject"
-              aria-label="Subjek"
-              v-model="form.subject"
-            />
-          </div>
-          <div class="form-group">
-            <textarea
-              class="form-textarea"
-              placeholder="Tell me about your project"
-              aria-label="Pesan"
-              v-model="form.message"
-            ></textarea>
-          </div>
-          <div v-if="formStatus === 'success'" class="form-status success">
-            ✓ Message sent successfully! I will get back to you soon.
-          </div>
-          <div v-else-if="formStatus === 'error'" class="form-status error">
-            ✕ Failed to send. Please make sure all fields are filled or try again.
-          </div>
-          <button
-            type="submit"
-            class="btn-submit"
-            :disabled="formStatus === 'sending'"
-          >
-            <span v-if="formStatus === 'sending'">Sending...</span>
-            <span
-              v-else
-              style="display: inline-flex; align-items: center; gap: 8px"
-            >
-              Send Message
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-              >
-                <line x1="22" y1="2" x2="11" y2="13" />
-                <polygon points="22 2 15 22 11 13 2 9 22 2" />
-              </svg>
-            </span>
-          </button>
-          <div class="form-footer">
-            <span class="form-powered-by">Powered by EmailJS</span>
-          </div>
-        </form>
       </div>
     </section>
 
