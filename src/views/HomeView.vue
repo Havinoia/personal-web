@@ -1444,22 +1444,6 @@ onUnmounted(() => {
       </div>
       <div class="contact-grid">
         <ul class="contact-info-list" aria-label="Contact links">
-          <li v-if="store.contact?.email_img" class="scroll-fade" data-delay="1">
-            <a
-              :href="`mailto:${store.profile.email}`"
-              class="contact-info-item"
-              aria-label="Email"
-              title="Email"
-            >
-              <span class="contact-info-icon">
-                <img
-                  :src="store.contact.email_img"
-                  class="contact-info-img"
-                  alt="Email"
-                />
-              </span>
-            </a>
-          </li>
           <li
             v-if="store.contact?.whatsapp_img"
             class="scroll-fade"

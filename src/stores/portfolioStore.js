@@ -247,8 +247,6 @@ export const usePortfolioStore = defineStore("portfolio", {
       photo: "/images/havin.jpeg",
     },
     contact: {
-      email: "havin.personal@gmail.com",
-      email_img: "/images/email_icon.png",
       whatsapp: "6281252205174",
       whatsapp_img: "/images/whatsapp_icon.png",
       instagram: "https://www.instagram.com/havinneo",
