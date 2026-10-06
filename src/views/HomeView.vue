@@ -1434,7 +1434,7 @@ onUnmounted(() => {
     <!-- ═══ CONTACT ═══ -->
     <section class="contact-section" id="contact">
       <div class="section-header">
-        <div class="section-label scroll-fade">Contact</div>
+        <div class="section-label scroll-fade">Contacts</div>
         <h2 class="section-title scroll-fade" data-delay="1">
           Have an idea? Let’s make it real
         </h2>

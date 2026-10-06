@@ -112,7 +112,7 @@ export const usePortfolioStore = defineStore("portfolio", {
         description:
           "A modern speed-typing platform featuring a real-time typing engine for WPM and accuracy tracking. Developed with Laravel and Vue 3 for a premium, high-performance practice experience.",
         fullDescription:
-          "TypeRush is a dedicated practice platform designed for enthusiasts looking to master their typing speed and accuracy. It features a custom-built, real-time typing engine that provides instant feedback on Words Per Minute (WPM) and precision. The application boasts a minimalist yet premium UI/UX crafted with Tailwind CSS and Vue 3, powered by a robust Laravel backend via Inertia.js. With a comprehensive authentication system to track personal progress and persistent results storage, TypeRush offers a seamless, SPA-like experience that is fully responsive across all desktop and mobile devices.",
+          "TypeRush is a dedicated practice platform designed for enthusiasts looking to master their typing speed and accuracy. It features a custom built, real time typing engine that provides instant feedback on Words Per Minute (WPM) and precision. The application boasts a minimalist yet premium UI/UX crafted with Tailwind CSS and Vue 3, powered by a robust Laravel backend via Inertia.js. With a comprehensive authentication system to track personal progress and persistent results storage, TypeRush offers a seamless, SPA like experience that is fully responsive across all desktop and mobile devices.",
         tags: [
           "Laravel 11",
           "Vue 3",
@@ -137,7 +137,7 @@ export const usePortfolioStore = defineStore("portfolio", {
         description:
           "A high-fidelity, gamified learning platform with a 90s Arcade & Cyberpunk aesthetic. Built with Laravel 13 and Tailwind CSS v4 to deliver an immersive, retro-futuristic user experience.",
         fullDescription:
-          "GAMIFY_SYSTEM v3.0 is a cutting-edge engagement platform that blends education with the high-octane energy of a 90s arcade. Utilizing the latest Laravel 13 features and Tailwind CSS v4, it features a complete 'Dark Arcade' design system with CRT scanline effects, flickering animations, and neon-drenched interfaces. The system includes interactive quest-based quizzes, a real-time 'Hall of Fame' leaderboard, and a persistent achievement badge system. Every interaction, from the 'System Boot' authentication sequence to the dynamic dashboard, is engineered to transport users into a gamified, retro-tech atmosphere.",
+          "GAMIFY_SYSTEM v3.0 is a cutting edge engagement platform that blends education with the high octane energy of a 90s arcade. Utilizing the latest Laravel 13 features and Tailwind CSS v4, it features a complete 'Dark Arcade' design system with CRT scanline effects, flickering animations, and neon drenched interfaces. The system includes interactive quest based quizzes, a real time 'Hall of Fame' leaderboard, and a persistent achievement badge system. Every interaction, from the 'System Boot' authentication sequence to the dynamic dashboard, is engineered to transport users into a gamified, retro tech atmosphere.",
         tags: ["Laravel 13", "Livewire", "Tailwind CSS v4", "Vite", "MySQL"],
         demo: "https://github.com/Havinoia/gamify.git",
         github: "https://github.com/Havinoia/gamify.git",
@@ -155,7 +155,7 @@ export const usePortfolioStore = defineStore("portfolio", {
         description:
           "A professional tech service and spare part showcase platform with real-time search and dynamic ordering. Built with Next.js 14, Supabase, and Tailwind CSS v4.",
         fullDescription:
-          "Buana Computer is a high-performance web platform designed for a technology service center. It features a comprehensive product showcase for laptops and spare parts, integrated with a real-time search engine for instant unit discovery. The platform includes a dynamic ordering system that adapts to both product sales and service requests (on-site or in-shop). Powered by Next.js 14 and Supabase for authentication and database management, it delivers a premium, responsive experience with a modern UI crafted using Tailwind CSS v4 and Lucide icons.",
+          "Buana Computer is a high performance web platform designed for a technology service center. It features a comprehensive product showcase for laptops and spare parts, integrated with a real time search engine for instant unit discovery. The platform includes a dynamic ordering system that adapts to both product sales and service requests (on site or in shop). Powered by Next.js 14 and Supabase for authentication and database management, it delivers a premium, responsive experience with a modern UI crafted using Tailwind CSS v4 and Lucide icons.",
         tags: ["Next.js 14", "Supabase", "TypeScript", "Tailwind CSS v4", "Lucide React"],
         demo: "https://github.com/Havinoia/buanacomputer.git",
         github: "https://github.com/Havinoia/buanacomputer.git",
