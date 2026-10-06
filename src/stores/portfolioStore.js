@@ -94,7 +94,7 @@ export const usePortfolioStore = defineStore("portfolio", {
         description:
           "An AI-powered career assistant built as a Chrome extension and Laravel dashboard. It uses Google Gemini AI to analyze CVs, provide LinkedIn skill matching, and identify skill gaps for job seekers.",
         fullDescription:
-          "JobHunt is a premium career intelligence platform that leverages the power of Google Gemini AI to revolutionize the job searching process. It consists of a sophisticated Chrome extension that integrates directly with LinkedIn to provide real-time Smart Match scores and detailed skill gap analyses. Users can upload their PDF resumes to a central Laravel dashboard, where the AI extracts core competencies and provides deep-domain audits of their professional profile. The system includes a multi-tiered plan (Freemium vs. Premium), secure payment integration via Pakasir, and extensive testing via PHPUnit to ensure high reliability in AI-driven career insights.",
+          "JobHunt is a career intelligence platform that leverages the power of AI Agent to revolutionize the job searching process. It consists of a sophisticated Chrome extension that integrates directly with LinkedIn to provide real-time Smart Match scores and detailed skill gap analyses. Users can upload their PDF resumes to a JobHunt dashboard, where the AI extracts core competencies and provides deep domain audits of their professional profile. The system includes a multi tiered plan (Freemium vs. Premium), secure payment integration via Pakasir, and extensive testing via PHPUnit to ensure high reliability in AI driven career insights.",
         tags: ["Laravel 11", "Chrome Extension", "Tailwind CSS", "PostgreSQL", "Manifest v3"],
         demo: "https://github.com/Havinoia/jobhunt.git",
         github: "https://github.com/Havinoia/jobhunt.git",
@@ -238,7 +238,7 @@ export const usePortfolioStore = defineStore("portfolio", {
       role: "Fullstack Developer" || "",
       location: "Nganjuk, Indonesia" || "",
       university: "Universitas Teknologi Yogyakarta" || "",
-      bio: "Bachelor's degree graduate in Informatics from Universitas Teknologi Yogyakarta with a GPA of 3.60. Possesses skills in system analysis, application development, and data processing. Accustomed to thinking systematically, solving problems in a structured manner, and maintaining high accuracy in managing information. Demonstrates strong adaptability, discipline, and the ability to work both independently and collaboratively within a team. Committed to continuous learning and developing both technical and non-technical competencies to contribute effectively in a professional work environment.",
+      bio: "Bachelor's degree graduate in Informatics from Universitas Teknologi Yogyakarta with a GPA of 3.60. Possesses skills in system analysis, application development, and data processing. Accustomed to thinking systematically, solving problems in a structured manner, and maintaining high accuracy in managing information. Demonstrates strong adaptability, discipline, and the ability to work both independently and collaboratively within a team. Committed to continuous learning and developing both technical and non technical competencies to contribute effectively in a professional work environment.",
       email: "havin.personal@gmail.com",
       whatsapp: "6281252205174",
       github: "https://github.com/Havinoia",
@@ -267,13 +267,13 @@ export const usePortfolioStore = defineStore("portfolio", {
       },
       {
         id: 2,
-        title: "TOEFL - English Proficiency Test (Score: 490)",
+        title: "TOEFL - Test of English as a Foreign Language (Score: 490)",
         issuer: "UTY Education, Certification, and Training Center (ECTC)",
         image: "/images/sertif-toefl_uty.png",
         link: "/documents/TOEFL_UTY.pdf",
         date: "2025",
         description:
-          "English Proficiency Test (TOEFL) certification with a score of 490 issued by UTY Education, Certification, and Training Center (ECTC).",
+          "TOEFL certification with a score of 490 issued by UTY Education, Certification, and Training Center (ECTC).",
       },
       {
         id: 3,
@@ -295,7 +295,7 @@ export const usePortfolioStore = defineStore("portfolio", {
         link: "/documents/sertif-3.pdf",
         date: "2025",
         description:
-          "Understanding the importance of technology-based records management to improve the efficiency of organizational information management.",
+          "Understanding the importance of technology based records management to improve the efficiency of organizational information management.",
       },
       {
         id: 5,
