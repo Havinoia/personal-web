@@ -257,35 +257,55 @@ export const usePortfolioStore = defineStore("portfolio", {
     cert: [
       {
         id: 1,
-        title: "PEMANFAATAN GEMINI AI SEBAGAI INOVASI PEMBELAJARAN INTERAKTIF",
-        issuer: "Diklat.co",
-        image: "/images/sertif-1.png", // Path gambar
-        link: "/documents/sertif-1.pdf", // Path download/lihat PDF
-        date: "2024",
+        title: "TOEFL - Test of English as a Foreign Language (Score: 507)",
+        issuer: "RHIMA English Course – Kampung Inggris Pare",
+        image: "/images/sertif-toefl_rhima.png",
+        link: "/documents/TOEFL_RHIMA.pdf",
+        date: "2026",
         description:
-          "Utilization of Gemini AI to create more interactive and innovative learning methods.",
+          "TOEFL certification with a score of 507 issued by RHIMA English Course, Kampung Inggris Pare.",
       },
       {
         id: 2,
+        title: "TOEFL - English Proficiency Test (Score: 490)",
+        issuer: "UTY Education, Certification, and Training Center (ECTC)",
+        image: "/images/sertif-toefl_uty.png",
+        link: "/documents/TOEFL_UTY.pdf",
+        date: "2025",
+        description:
+          "English Proficiency Test (TOEFL) certification with a score of 490 issued by UTY Education, Certification, and Training Center (ECTC).",
+      },
+      {
+        id: 3,
         title:
           "Seminar Nasional Transformasi Pembelajaran Ekonomi di Era AI & Big Data",
         issuer: "e-Guru.id",
-        image: "/images/sertif-2.png", // Path gambar
-        link: "/documents/sertif-2.pdf", // Path download/lihat PDF
+        image: "/images/sertif-2.png",
+        link: "/documents/sertif-2.pdf",
         date: "2025",
         description:
           "Utilization of AI and Big Data to enhance effectiveness and innovation in the economic learning process.",
       },
       {
-        id: 3,
+        id: 4,
         title:
           "Seminar Nasional Pentingnya Manajemen Arsip dalam Organisasi : Manfaat dan Tantangan Berbasis Teknologi",
         issuer: "e-Guru.id",
-        image: "/images/sertif-3.png", // Path gambar
-        link: "/documents/sertif-3.pdf", // Path download/lihat PDF
+        image: "/images/sertif-3.png",
+        link: "/documents/sertif-3.pdf",
         date: "2025",
         description:
           "Understanding the importance of technology-based records management to improve the efficiency of organizational information management.",
+      },
+      {
+        id: 5,
+        title: "PEMANFAATAN GEMINI AI SEBAGAI INOVASI PEMBELAJARAN INTERAKTIF",
+        issuer: "Diklat.co",
+        image: "/images/sertif-1.png",
+        link: "/documents/sertif-1.pdf",
+        date: "2024",
+        description:
+          "Utilization of Gemini AI to create more interactive and innovative learning methods.",
       },
     ],
   }),
