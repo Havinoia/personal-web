@@ -23,6 +23,8 @@ onMounted(() => {
       }, 100)
     } else if (to.path !== from.path) {
       lenis.scrollTo(0, { immediate: true })
+    } else {
+      lenis.scrollTo(0, { duration: 1.2 })
     }
   })
 })

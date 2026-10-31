@@ -1,6 +1,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from "vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRoute, useRouter } from "vue-router";
+import { getLenis } from "../../utils/lenis";
+
+const route = useRoute();
+const router = useRouter();
 
 const isScrolled = ref(false);
 const isMenuOpen = ref(false);
@@ -27,6 +31,40 @@ function closeMenu() {
   isMenuOpen.value = false;
 }
 
+function scrollToTop() {
+  const lenis = getLenis();
+  if (lenis) {
+    lenis.scrollTo(0, { duration: 1.2 });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function handleHomeClick() {
+  closeMenu();
+  if (route.path === '/') {
+    if (route.hash) {
+      router.push({ path: '/' });
+    }
+    scrollToTop();
+  }
+}
+
+function handleNavClick(hash) {
+  closeMenu();
+  if (route.path === '/' && route.hash === hash) {
+    const target = document.querySelector(hash);
+    if (target) {
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.scrollTo(target, { offset: -80, duration: 1.2 });
+      } else {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }
+}
+
 onMounted(() => {
   window.addEventListener("scroll", handleScroll, { passive: true });
   window.addEventListener("resize", handleResize);
@@ -43,7 +81,7 @@ onUnmounted(() => {
     
     <!-- Mobile-only header (Visible < 820px) -->
     <div class="nav-mobile-header">
-      <RouterLink to="/" class="nav-logo" @click="closeMenu">havin<span>.</span>dev</RouterLink>
+      <RouterLink to="/" class="nav-logo" @click="handleHomeClick">havin<span>.</span>dev</RouterLink>
       <button class="nav-hamburger" @click="toggleMenu" :class="{ 'is-active': isMenuOpen }" aria-label="Toggle menu">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
@@ -57,16 +95,16 @@ onUnmounted(() => {
       <div class="nav-content" v-if="!isMobile || isMenuOpen">
         <!-- Logo bubble (Desktop only) -->
         <div class="nav-bubble nav-logo-bubble">
-          <RouterLink to="/" class="nav-logo">havin<span>.</span>dev</RouterLink>
+          <RouterLink to="/" class="nav-logo" @click="handleHomeClick">havin<span>.</span>dev</RouterLink>
         </div>
 
         <!-- Links bubble -->
         <ul class="nav-bubble nav-links">
-          <li><RouterLink :to="{ path: '/' }" @click="closeMenu">Home</RouterLink></li>
-          <li><RouterLink :to="{ path: '/', hash: '#portfolio' }" @click="closeMenu">Portfolio</RouterLink></li>
-          <li><RouterLink :to="{ path: '/', hash: '#skills' }" @click="closeMenu">Tech Stack</RouterLink></li>
-          <li><RouterLink :to="{ path: '/', hash: '#certifications' }" @click="closeMenu">Achievements</RouterLink></li>
-          <li><RouterLink :to="{ path: '/', hash: '#contact' }" @click="closeMenu">Contact</RouterLink></li>
+          <li><RouterLink :to="{ path: '/' }" @click="handleHomeClick">Home</RouterLink></li>
+          <li><RouterLink :to="{ path: '/', hash: '#portfolio' }" @click="handleNavClick('#portfolio')">Portfolio</RouterLink></li>
+          <li><RouterLink :to="{ path: '/', hash: '#skills' }" @click="handleNavClick('#skills')">Tech Stack</RouterLink></li>
+          <li><RouterLink :to="{ path: '/', hash: '#certifications' }" @click="handleNavClick('#certifications')">Achievements</RouterLink></li>
+          <li><RouterLink :to="{ path: '/', hash: '#contact' }" @click="handleNavClick('#contact')">Contact</RouterLink></li>
         </ul>
 
         <!-- Actions bubble -->
