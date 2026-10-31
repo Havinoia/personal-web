@@ -55,7 +55,7 @@ watch(() => route.params.id, (newId) => {
 
 watch(project, (p) => {
   if (p) {
-    document.title = `${p.title} | havin.dev`;
+    document.title = `${p.title} | havin web portfolio`;
   }
 }, { immediate: true });
 

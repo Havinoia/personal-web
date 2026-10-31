@@ -38,7 +38,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to) => {
-  document.title = to.meta?.title ? `${to.meta.title} | havin.dev` : 'havin.dev'
+  document.title = to.meta?.title ? `${to.meta.title} | havin web portfolio` : 'havin web portfolio'
 })
 
 export default router
