@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { usePortfolioStore } from "../stores/portfolioStore";
+import { encodeProjectId } from "../utils/hashId";
 
 const store = usePortfolioStore();
 const router = useRouter();
@@ -524,7 +525,7 @@ function tryOpenProject(e) {
     isLoopMode.value
       ? snapToIndexLoop(idx)
       : snapToIndexNoLoop(idx % TOTAL.value);
-  if (proj.id) router.push({ name: 'project-detail', params: { id: proj.id } });
+  if (proj.id) router.push({ name: 'project-detail', params: { id: encodeProjectId(proj.id) } });
 }
 function startMomentum() {
   if (momentumId) cancelAnimationFrame(momentumId);

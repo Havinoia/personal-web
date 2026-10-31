@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { encodeProjectId } from '../utils/hashId'
 
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
@@ -10,7 +11,12 @@ const routes = [
   { path: '/about',     name: 'about',     component: AboutView },
   { path: '/portfolio', name: 'portfolio', component: PortfolioView },
   { path: '/contact',   name: 'contact',   component: ContactView },
-  { path: '/project/:id', name: 'project-detail', component: () => import('../views/project/ProjectDetailView.vue') },
+  { 
+    path: '/project/:id', 
+    name: 'project-detail', 
+    component: () => import('../views/project/ProjectDetailView.vue'),
+    meta: { secureId: true }
+  },
 ]
 
 const router = createRouter({
@@ -19,6 +25,16 @@ const router = createRouter({
   scrollBehavior() {
     return false
   }
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta?.secureId && to.params?.id && /^\d+$/.test(to.params.id)) {
+    const hashedId = encodeProjectId(to.params.id)
+    if (hashedId) {
+      return next({ name: to.name, params: { ...to.params, id: hashedId }, replace: true })
+    }
+  }
+  next()
 })
 
 router.afterEach((to) => {

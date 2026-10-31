@@ -2,6 +2,7 @@
 import { computed, watch, onMounted, ref, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { usePortfolioStore } from '../../stores/portfolioStore';
+import { encodeProjectId, decodeProjectId } from '../../utils/hashId';
 
 const route = useRoute();
 const router = useRouter();
@@ -22,7 +23,8 @@ function handleKeydown(e) {
 }
 
 const project = computed(() => {
-  const id = parseInt(route.params.id);
+  const id = decodeProjectId(route.params.id);
+  if (!id) return null;
   return store.projects.find(p => p.id === id);
 });
 
@@ -35,11 +37,30 @@ const nextProject = computed(() => {
   return store.projects[nextIndex];
 });
 
-watch(() => route.params.id, () => {
+function checkAndCanonicalizeId(paramId) {
+  if (/^\d+$/.test(paramId)) {
+    const enc = encodeProjectId(paramId);
+    if (enc) {
+      router.replace({ name: 'project-detail', params: { id: enc } });
+      return true;
+    }
+  }
+  return false;
+}
+
+watch(() => route.params.id, (newId) => {
+  if (checkAndCanonicalizeId(newId)) return;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
+watch(project, (p) => {
+  if (p) {
+    document.title = `${p.title} | havin.dev`;
+  }
+}, { immediate: true });
+
 onMounted(() => {
+  if (checkAndCanonicalizeId(route.params.id)) return;
   window.scrollTo({ top: 0 });
   window.addEventListener('keydown', handleKeydown);
   
@@ -177,7 +198,7 @@ onUnmounted(() => {
 
     <!-- NEXT PROJECT FOOTER -->
     <footer class="pd-footer" v-if="nextProject">
-      <div class="pd-footer-content" @click="router.push({ name: 'project-detail', params: { id: nextProject.id } })">
+      <div class="pd-footer-content" @click="router.push({ name: 'project-detail', params: { id: encodeProjectId(nextProject.id) } })">
         <span class="pd-next-label">Next Project</span>
         <h2 class="pd-next-title">{{ nextProject.title }}</h2>
       </div>
